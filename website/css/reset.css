@@ -1,0 +1,28 @@
+html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, legend, blockquote, var, img, hr { margin:0; padding:0; }
+fieldset, img { border:none; }
+address, caption, cite, code, dfn, th, var , i{ font-style:normal; font-weight:normal; }
+ul, ol, li { list-style:none; }
+select, input { vertical-align:middle; }
+select, input, textarea,option { font-size:12px; margin:0; }
+table { border-collapse:collapse; }
+h1, h2, h3, h4, h5, strong { font-weight:normal; }
+h1, h2, h3, h4, h5, strong, sub { cursor:default; }
+a{ outline: none;text-decoration:none; }
+button{ outline:none; -moz-user-select: none; -khtml-user-select: none; user-select: none; }
+button::-moz-focus-inner {  border:none !important; } 
+body {font-size:12px; font-family:'Î¢ÈíÑÅºÚ','Arial','ËÎÌå'; background:#ffffff;}
+table{ width:100%; }
+br{ height:0px;line-height:0px; font-size:0px; margin:0; padding:0; }
+.clear{ clear:both; height:0px; line-height:0px; font-size:0px; background:#ffffff; overflow:hidden; }
+sup{ font-size:8px; }
+
+.wrap{width:950px;margin:0 auto;}
+.gray{ color:#898989; }
+.red{ color:#D50000; }
+.green{ color:#287900; }
+.blue{color:#26539B;}
+
+/* mask */
+#maskLayer{ Background : #666666;opacity:0.5; z-index: 23452356; position: absolute; filter: alpha(opacity='40'); WIDTH: 100%; HEIGHT: 800px; TOP: -9999px; LEFT: -9999px; -moz-user-select:none; }
+#maskContent{ z-index: 23452357; display:none;position: absolute;}
+
