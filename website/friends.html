@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+        <title>转让积分</title>
+        <link href="css/reset.css" rel="stylesheet" type="text/css" />
+		<link href="css/friends.css" rel="stylesheet" type="text/css" />
+		<script src="js/jquery-1.4.4.js" type="text/javascript"></script>
+		<script src="js/friends.js" type="text/javascript"></script>
+	</head>
+	<body>
+		
+		<div class="wrap">
+			<div id="header">
+				<div id="links">
+										<a href="gifts.html">兑换积分</a>
+										<a href="main.html">返回首页</a>
+				</div>
+				<span id="username">名字啊啊</span>，您目前拥有积分：<span class="red" id="point">500</span>，共有<span id="together">5</span>位好友参与
+			</div>
+			
+			<div>
+				<fieldset>
+				<legend>请先选择好友</legend>
+				
+				<script id="friendTemplate" type="text/x-jquery-tmpl"> 
+					<li>
+						<h4 class="center">${name}</h4>
+						<a href="javascript:void(0)" uid="${uid}" >
+							<img src="${avatar_url}" title="${name}" />
+						</a>
+						<b>${point}</b>
+					</li>
+				</script>
+				
+				<ul id="friends">
+				</ul>
+				<div class="clear"></div>
+				</fieldset>
+			</div>
+			
+			<div>
+				<form id="transfer" >
+					<input type="hidden" name="fid" autocomplete="off"  id="fid" />
+					<p>
+						<label>用户名称：</label><input autocomplete="off" readonly="readonly" id="fname" name="fname" />
+					</p>
+					<p>
+						<label>转让积分：</label><input autocomplete="off"  name="num" id="num" />
+					</p>
+					<p>
+						<button type="submit">提交</button>
+					</p>
+				</form>
+			</div>
+			
+		</div>
+		
+		<div id="footer">
+			&copy;2011 <a href="http://t.sina.com.cn/nianxiangwa" target="_blank">Norris Tong</a><a target="_blank" href="http://q.t.sina.com.cn/272453">意见反馈</a>
+		</div>
+		
+	</body>
+</html>

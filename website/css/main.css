@@ -1,15 +1,13 @@
-#header{ height:30px; background:#fceeda; line-height:30px; }
-
 
 #award{ text-align:center; }
-
+#award a{ line-height:0px; }
 
 #mleft{ width:400px; float:left; height:400px; }
 
-#mright{ width:550px; float:left; height:400px; background:#ffff00; }
+#mright{ width:550px; float:left; height:400px; background:#DAFECF; }
 
-
-
-#footer{ text-align:center; border-top:1px solid #F0F0F0; background:#F9F9F9;width:100%; padding:10px; }
+.list { height:200px; }
+.list thead td{ height:25px; line-height:25px; text-align:center; background:#dafecf; font-size:14px; font-weight:bold; color:#777; }
+.list tbody td{ height:20px; line-height:20px; padding:0 10px; text-align:center; }
 
 

@@ -1,0 +1,6 @@
+
+#gifts{ list-style:none; margin:10px auto; width:100%; }
+#gifts li{ list-style:none; display:block; float:left; width:300px; text-align:center; height:200px; border:2px solid #fff; overflow:hidden; margin-right:10px; }
+#gifts li.hover{ border:2px solid #dafecf; cursor:pointer; }
+#gifts li a{ display:block; width:100%; height:180; line-height:0px; text-align:center; vertical-align:middle; }
+#gifts li b{ height:20px; line-height:20px; color:#ff8040; }

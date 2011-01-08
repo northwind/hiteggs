@@ -1,5 +1,5 @@
-html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, legend, blockquote, var, img, hr { margin:0; padding:0; }
-fieldset, img { border:none; }
+html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, blockquote, var, img, hr { margin:0; padding:0; }
+img { border:none; }
 address, caption, cite, code, dfn, th, var , i{ font-style:normal; font-weight:normal; }
 ul, ol, li { list-style:none; }
 select, input { vertical-align:middle; }
@@ -8,6 +8,8 @@ table { border-collapse:collapse; }
 h1, h2, h3, h4, h5, strong { font-weight:normal; }
 h1, h2, h3, h4, h5, strong, sub { cursor:default; }
 a{ outline: none;text-decoration:none; }
+a:visited, a:link, a:focus, a:active { color:#0000EE; }
+a:hover{ text-decoration:underline; }
 button{ outline:none; -moz-user-select: none; -khtml-user-select: none; user-select: none; }
 button::-moz-focus-inner {  border:none !important; } 
 body {font-size:12px; font-family:'Î¢ÈíÑÅºÚ','Arial','ËÎÌå'; background:#ffffff;}
@@ -17,12 +19,28 @@ br{ height:0px;line-height:0px; font-size:0px; margin:0; padding:0; }
 sup{ font-size:8px; }
 
 .wrap{width:950px;margin:0 auto;}
-.gray{ color:#898989; }
-.red{ color:#D50000; }
+.gray, a.gray{ color:#898989; }
+.red, a.red{ color:#D50000; }
 .green{ color:#287900; }
-.blue{color:#26539B;}
+a.blue, .blue{color:#26539B;}
+.center{ text-align:center; }
 
 /* mask */
 #maskLayer{ Background : #666666;opacity:0.5; z-index: 23452356; position: absolute; filter: alpha(opacity='40'); WIDTH: 100%; HEIGHT: 800px; TOP: -9999px; LEFT: -9999px; -moz-user-select:none; }
 #maskContent{ z-index: 23452357; display:none;position: absolute;}
+
+#header{ border-top:1px solid #36C; height:40px; background:#E5ECF9; margin:10px 0px; line-height:40px; padding:0 20px; font-size:14px; }
+#username{ }
+#point{ font-weight:bold; font-size:16px; }
+#together{ font-weight:bold; font-size:16px; margin: 0 3px; }
+#links{ float:right; width:300px; text-align:right; }
+#links a{ margin:0 5px; }
+
+#footer{ margin-top:10px; margin-bottom:50px; text-align:center; border-top:1px solid #F0F0F0; background:#F9F9F9;width:100%; padding:10px 0px; }
+#footer a{ margin-right:15px; }
+
+.list { }
+.list thead td{ height:25px; line-height:25px; text-align:center; background:#dafecf; font-size:14px; font-weight:bold; color:#777; }
+.list tbody td{ height:20px; line-height:20px; padding:0 10px; text-align:center; }
+
 

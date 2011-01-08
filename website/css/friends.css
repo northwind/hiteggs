@@ -1,0 +1,12 @@
+
+#friends{ list-style:none; margin:10px auto; width:100%; }
+#friends li{ list-style:none; display:block; float:left; width:90px; text-align:center; height:90px; border:2px solid #fff; overflow:hidden; margin-right:10px; }
+#friends li.hover{ border:2px solid #dafecf; cursor:pointer; }
+#friends li a{ display:block; width:100%; height:50; line-height:0px; text-align:center; vertical-align:middle; }
+#friends li h4{ font-size:12px; height:20px; line-height:20px; }
+#friends li b{ height:20px; line-height:20px; color:#ff8040; }
+
+#transfer{ width:300px; margin:0 auto; }
+#transfer p{ margin:5px 0px; text-align:center; }
+
+fieldset{ border: 1px solid #ccc; }
