@@ -34,9 +34,6 @@ package
 		[Embed("assets/broken.png")]
 		public const eggBrokenClass:Class;
 		
-		[Embed("assets/kiss.png")]
-		public const kissClass:Class;
-		
 		[Embed("assets/hammer.png")]
 		public const hammerClass:Class;
 		
@@ -47,7 +44,7 @@ package
 		private var bg: Sprite = new Sprite();
 		private var uid:String = "";
 		private var source:String = "";
-		private var urlGift:String = "aaa.html";
+		private var urlGift:String = "http://eggs.sinaapp.com/1.php";
 		private var fname:String = "";
 		private var furl:String = "";
 		private var text:String = "";
@@ -99,6 +96,7 @@ package
 			
 			//设置微博
 			mb.addEventListener( MicroBlogEvent.UPDATE_STATUS_RESULT, updateResult );
+			mb.isTrustDomain = true;
 			
 			test();
 		}
@@ -106,13 +104,12 @@ package
 		private function test() : void
 		{
 			this.setUser( "1362803703", "562831874" );
-			this.setPerson( "佟野最喜剧-平男", "http://tp3.sinaimg.cn/1656809190/50/1294496387/0" );
+			this.setPerson( "佟野最喜剧-平男", "http://tp1.sinaimg.cn/1069829044/50/1282565209/0" );
 			this.addText( "@{name}，你太给力了" ); 
-			setBackground( new kissClass() as DisplayObject );
+			setBackground( "http://eggs.sinaapp.com/assets/geiliable.png"  );
 			
 			function broke():void
 			{
-				updateStatus( "TEST @{name}，你太给力了，帮我赚了500积分。 -- 大家也来试试啊http://eggs.sinaapp.com/" );
 			}
 			
 //			var intervalId:uint = setTimeout( broke, 2000 );
@@ -142,6 +139,8 @@ package
 			//从服务器取得奖品
 			getGift();
 			playAnimation();
+			
+//			updateStatus( "TEST @{name}，你太给力了，帮我赚了500积分。 -- 大家也来试试啊http://eggs.sinaapp.com/" );
 		}
 
 		private function onBroke( event:Event ):void
@@ -166,17 +165,16 @@ package
 
 		private function onError( event:IOErrorEvent ) :void
 		{
+			trace(  "onError can't get gift" );
 			//显示一个错误图片
 			parseData( '{ "code" : "2", "data" : "http://eggs.sinaapp.com/assets/wrong.png" }' );
 		}
 
 		private function loaded( evt:Event = null ):void
 		{
-			evt = new Event("aaa");
-			
 			if ( evt ){
-//				var str:String = evt.target.data as String;
-				var str:String = '{ "code" : "1", "data" : -200 }';
+				var str:String = evt.target.data as String;
+//				var str:String = '{ "code" : "1", "data" : -200 }';
 //				var str:String = '{ "code" : "2", "data" : "http://tp3.sinaimg.cn/1656809190/50/1294496387/0" }';
 				
 				parseData( str );
@@ -210,7 +208,14 @@ package
 		
 		private function onComplete() :void
 		{
-			updateStatus( "TEST @{name}，你太给力了，帮我赚了500积分。 -- 大家也来试试啊http://eggs.sinaapp.com/" );
+			//加载好友图像
+			var loader:Loader = new Loader();
+			loader.load( new URLRequest( this.furl ) );
+			
+			loader.x = egg.x + (egg.width - 50) /2;
+			loader.y = egg.y + (egg.height - 50) /2;
+			
+			this.addChildAt( loader, this.getChildIndex( egg ) );	
 		}
 
 		private var dropShadowFilter :DropShadowFilter = new DropShadowFilter( 10, 45, 0x000000, 0.8, 8, 8, 0.65, 1, false, false, false );
@@ -229,6 +234,7 @@ package
 			}else{
 				tf.color = 0x00FF00;
 			}
+			numFiled.mouseEnabled = false;
 			numFiled.defaultTextFormat = tf;
 			numFiled.text = n.toString();
 			numFiled.width = numFiled.textWidth + 5;
@@ -265,17 +271,21 @@ package
 		}
 		
 		private var blurFilter :BlurFilter = new BlurFilter( 10, 10, 1 );
-		private function setBackground( obj :DisplayObject  ) :void 
+		private function setBackground( url:String  ) :void 
 		{
 			while( bg.numChildren > 0 ){
 				bg.removeChildAt( bg.numChildren );
 			}
-			obj.x = 0;
-			obj.y = 0;
-			obj.alpha = 0.7;
-			obj.filters = [ blurFilter ];
 			
-			bg.addChild( obj );
+			var loader:Loader = new Loader();
+			
+			loader.x = 0;
+			loader.y = 0;
+			loader.alpha = 0.7;
+			loader.filters = [ blurFilter ];
+			
+			loader.load( new URLRequest( url ) );
+			bg.addChild( loader );
 		}
 		
 		private function setCursor() : void
