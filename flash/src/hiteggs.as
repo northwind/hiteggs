@@ -1,6 +1,8 @@
 package
 {
 	import com.adobe.serialization.json.JSON;
+	import com.sina.microblog.MicroBlog;
+	import com.sina.microblog.events.MicroBlogEvent;
 	
 	import flash.display.*;
 	import flash.display.Loader;
@@ -9,17 +11,21 @@ package
 	import flash.events.MouseEvent;
 	import flash.filters.BitmapFilterQuality;
 	import flash.filters.BlurFilter;
+	import flash.filters.DropShadowFilter;
 	import flash.filters.GlowFilter;
 	import flash.geom.*;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.net.URLRequestHeader;
+	import flash.net.URLRequestMethod;
+	import flash.net.URLVariables;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	import flash.ui.Mouse;
 	import flash.utils.*;
 	
-	[SWF(frameRate="20",width="400",height="300",bgcolor="0x000000" )]
+	
+	[SWF(frameRate="20",width="400",height="330",bgcolor="#000000" )]
 	public class hiteggs extends Sprite
 	{
 		[Embed("assets/egg2.png")]
@@ -37,8 +43,6 @@ package
 		[Embed("assets/award.png")]
 		public const awardClass:Class;
 		
-		
-		
 		private var egg:Egg;
 		private var bg: Sprite = new Sprite();
 		private var uid:String = "";
@@ -49,6 +53,9 @@ package
 		private var text:String = "";
 		
 		private var cursor:DisplayObject = new hammerClass();
+		private var textFiled:TextField = new TextField();
+		
+		private var mb:MicroBlog = new MicroBlog();
 		
 		public function hiteggs()
 		{
@@ -73,24 +80,42 @@ package
 			//显示彩蛋
 			showEgg(  new eggClass() , new eggBrokenClass() );
 			
+			//设置底部文字
+			var tf:TextFormat = new TextFormat( null, 20 );
+			tf.font = "Verdana";
+			tf.size = 20;
+			tf.bold = 700;
+			tf.color = 0xFF0000;
+			textFiled.defaultTextFormat = tf;
+			textFiled.y = 300;
+			textFiled.height = 30;
+			textFiled.mouseEnabled = false;
+			this.addChild( textFiled );
+			
 			//设置鼠标
 			Mouse.hide();
 			this.addChild( cursor );
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+			
+			//设置微博
+			mb.addEventListener( MicroBlogEvent.UPDATE_STATUS_RESULT, updateResult );
 			
 			test();
 		}
 		
 		private function test() : void
 		{
+			this.setUser( "1362803703", "562831874" );
+			this.setPerson( "佟野最喜剧-平男", "http://tp3.sinaimg.cn/1656809190/50/1294496387/0" );
+			this.addText( "@{name}，你太给力了" ); 
 			setBackground( new kissClass() as DisplayObject );
 			
 			function broke():void
 			{
-				egg.broke();
+				updateStatus( "TEST @{name}，你太给力了，帮我赚了500积分。 -- 大家也来试试啊http://eggs.sinaapp.com/" );
 			}
 			
-//			var intervalId:uint = setTimeout( broke, 1000 );
+//			var intervalId:uint = setTimeout( broke, 2000 );
 		}
 		
 		private function mouseMoveHandler(evt:MouseEvent):void
@@ -114,6 +139,7 @@ package
 		
 		private function onHit( event:Event ):void
 		{
+			//从服务器取得奖品
 			getGift();
 			playAnimation();
 		}
@@ -140,7 +166,8 @@ package
 
 		private function onError( event:IOErrorEvent ) :void
 		{
-			loaded();
+			//显示一个错误图片
+			parseData( '{ "code" : "2", "data" : "http://eggs.sinaapp.com/assets/wrong.png" }' );
 		}
 
 		private function loaded( evt:Event = null ):void
@@ -149,35 +176,58 @@ package
 			
 			if ( evt ){
 //				var str:String = evt.target.data as String;
-				var str:String = '{ "code" : "1", "data" : 200 }';
+				var str:String = '{ "code" : "1", "data" : -200 }';
+//				var str:String = '{ "code" : "2", "data" : "http://tp3.sinaimg.cn/1656809190/50/1294496387/0" }';
 				
-				var ret:Object = JSON.decode( str );
-				//当是正确返回时
-				if ( ret is Object )
-				{
-					egg.broke();
-					
-					//1 积分 2物品
-					if ( ret.code == "1" ){
-						showPoint( ret.data as int ); 
-					}
-				}
+				parseData( str );
 			}			
 		}
 		
+		private function parseData( str:String ): void
+		{
+			var ret:Object
+			try{
+				ret = JSON.decode( str );
+			}catch( e:Error ){ 
+				ret = null; 
+			}
+			
+			//当是正确返回时
+			if ( ret is Object )
+			{
+				egg.broke();
+				
+				//1 积分 2物品
+				if ( ret.code == "1" ){
+					showPoint( ret.data as int ); 
+				}else if ( ret.code == "2" ){
+					showImage( ret.data as String ); 
+				}
+				
+				onComplete();
+			}		
+		}
+		
+		private function onComplete() :void
+		{
+			updateStatus( "TEST @{name}，你太给力了，帮我赚了500积分。 -- 大家也来试试啊http://eggs.sinaapp.com/" );
+		}
+
+		private var dropShadowFilter :DropShadowFilter = new DropShadowFilter( 10, 45, 0x000000, 0.8, 8, 8, 0.65, 1, false, false, false );
 		private function showPoint( n:int ):void
 		{
 			var container:Sprite = new Sprite();
 			var base:DisplayObject = new awardClass() as DisplayObject;
 			var numFiled:TextField = new TextField();
 			
-			var tf:TextFormat = new TextFormat( null, 18 );
+			var tf:TextFormat = new TextFormat( null, 20 );
 			tf.font = "Verdana";
-			tf.size = 18;
+			tf.size = 20;
+			tf.bold = 700;
 			if ( n > 0 ){
 				tf.color = 0xFF0000;
 			}else{
-				tf.color = 0x0000FF;
+				tf.color = 0x00FF00;
 			}
 			numFiled.defaultTextFormat = tf;
 			numFiled.text = n.toString();
@@ -185,14 +235,29 @@ package
 			numFiled.x = (base.width - numFiled.width) / 2;
 			numFiled.y = (base.height - numFiled.textHeight) / 2;
 			
-			container.addChild( base );
+//			container.addChild( base );
 			container.addChild( numFiled );
 			
-			container.x = egg.x - 30;
+			container.x = egg.x - 20;
 			container.y = egg.y - 30;
+			
+			container.filters = [ dropShadowFilter ];
 			
 			this.addChild( container );
 		}		
+		
+		private function showImage( url:String ):void
+		{
+			var loader:Loader = new Loader();
+			loader.load( new URLRequest( url ) );
+			
+			loader.x = egg.x - 20;
+			loader.y = egg.y - 30;
+			
+			loader.filters = [ dropShadowFilter ];
+			
+			this.addChild( loader );				
+		}
 		
 		private function playAnimation():void
 		{
@@ -218,9 +283,19 @@ package
 			
 		}
 		
-		private function getSnapshot() : void
+		private function getSnapshot() : ByteArray
 		{
+			this.cursor.visible = false;
+
+			var data:BitmapData ;
+			try{
+				data = new BitmapData( this.width, this.height );
+				data.draw( this );
+			}catch( e :Error ){
+				data = new BitmapData( 0,0 );
+			}
 			
+			return PNGEncoder.encode( data );
 		}
 		
 		public function setUser( uid:String, source:String ) :void
@@ -235,14 +310,29 @@ package
 			this.furl = furl;
 		}
 		
+		private var dropShadowFilterText :DropShadowFilter = new DropShadowFilter( 5, 45, 0x000000, 0.8, 8, 8, 0.65, 1, false, false, false );
+		private var growFilterText:GlowFilter = new GlowFilter( 0xFFFF55, 0.8, 5, 5, 1, 1, false, false );
+		
 		public function addText( text:String  ) :void
 		{
-			this.text = text;
+			this.text = text.replace( "{name}", this.fname );
+
+			textFiled.text = this.text;
+			textFiled.width = textFiled.textWidth + 5;
+			textFiled.x = (400 - textFiled.width ) / 2;
+			textFiled.filters = [ dropShadowFilterText, growFilterText ];
 		}
 		
-		public function updateStatus( str:String  ) :void
+		public function updateStatus( status:String  ) :void
 		{
+			mb.source = this.source;
 			
+			mb.updateStatus( status, null, getSnapshot() );
+		}
+		
+		private function updateResult( evt : MicroBlogEvent   ):void
+		{
+			addText( "发送成功" );
 		}
 	}
 }
