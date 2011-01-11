@@ -13,7 +13,7 @@ package
 		{
 			super();
 			
-			this.graphics.beginFill( 0xeeeeee, 0.8 );
+			this.graphics.beginFill( 0xDAFECF );
 			this.graphics.drawRect( 0, 0, 400, 70 );
 			this.graphics.endFill();
 			
