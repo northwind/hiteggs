@@ -30,7 +30,7 @@ package
 	 *  获取礼物后，调用JS方法onShowGift 
 	 */	
 	
-	[SWF(frameRate="20",width="400",height="400",bgcolor="#000000" )]
+	[SWF(frameRate="20",width="400",height="400" )]
 	public class hiteggs extends Sprite
 	{
 		[Embed("assets/egg2.png")]
@@ -114,14 +114,22 @@ package
 			
 			//设置接口
 			ExternalInterface.addCallback("updateStatus", this.updateStatus );
+			ExternalInterface.addCallback("setUser", this.setUser );
+			ExternalInterface.addCallback("setPerson", this.setPerson );
 			
-			test();
+			//调用JS
+			var isAvailable:Boolean =ExternalInterface.available;
+			if(isAvailable){
+				ExternalInterface.call("onFlashComplete");
+			}
+			
+//			test();
 		}
 		
 		private function test() : void
 		{
-			this.setUser( "1362803703", "562831874" );
-			this.setPerson( "佟野最喜剧-平男", "http://tp1.sinaimg.cn/1069829044/50/1282565209/0" );
+//			this.setUser( "1362803703", "562831874" );
+//			this.setPerson( "佟野最喜剧-平男", "http://tp1.sinaimg.cn/1069829044/50/1282565209/0" );
 //			this.addText( "@{name}，你太给力了" ); 
 //			setBackground( "http://eggs.sinaapp.com/assets/geiliable.png"  );
 			
