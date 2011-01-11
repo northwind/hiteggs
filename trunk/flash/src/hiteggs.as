@@ -103,10 +103,14 @@ package
 			this.addChild( area );			
 			
 			
-			//设置鼠标
+			//设置鼠标  TODO rollout 隐藏图标
 			Mouse.hide();
+//			cursor.visible = false;
 			this.addChild( cursor );
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+
+//			stage.addEventListener(MouseEvent.ROLL_OUT, onRollOut, true);
+//			stage.addEventListener(MouseEvent.ROLL_OVER, onRollOver, true );
 			
 			//设置微博
 			mb.addEventListener( MicroBlogEvent.UPDATE_STATUS_RESULT, updateResult );
@@ -138,6 +142,16 @@ package
 			}
 			
 //			var intervalId:uint = setTimeout( broke, 2000 );
+		}
+		
+		private function onRollOut( event:MouseEvent ) :void
+		{
+			cursor.visible = false;
+		}
+		
+		private function onRollOver( event:MouseEvent ) :void
+		{
+			cursor.visible = true;
 		}
 		
 		private function mouseMoveHandler(evt:MouseEvent):void

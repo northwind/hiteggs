@@ -72,7 +72,7 @@ package
 			var t:CustomButton = event.target as CustomButton;
 			
 			ct.setBackground( "" );
-			ct.addText( t.comment );
+			ct.addText( "" );
 		}
 		
 		private function onClick( event:MouseEvent ) :void
