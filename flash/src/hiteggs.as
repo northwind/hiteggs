@@ -9,6 +9,7 @@ package
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.MouseEvent;
+	import flash.external.ExternalInterface;
 	import flash.filters.BitmapFilterQuality;
 	import flash.filters.BlurFilter;
 	import flash.filters.DropShadowFilter;
@@ -25,7 +26,11 @@ package
 	import flash.utils.*;
 	
 	
-	[SWF(frameRate="20",width="400",height="330",bgcolor="#000000" )]
+	/**
+	 *  获取礼物后，调用JS方法onShowGift 
+	 */	
+	
+	[SWF(frameRate="20",width="400",height="400",bgcolor="#000000" )]
 	public class hiteggs extends Sprite
 	{
 		[Embed("assets/egg2.png")]
@@ -89,6 +94,15 @@ package
 			textFiled.mouseEnabled = false;
 			this.addChild( textFiled );
 			
+			//设置点评区
+			var area:CommentArea = new CommentArea();
+			area.x = 0;
+			area.y = 330;
+			area.ct = this;
+			
+			this.addChild( area );			
+			
+			
 			//设置鼠标
 			Mouse.hide();
 			this.addChild( cursor );
@@ -98,6 +112,9 @@ package
 			mb.addEventListener( MicroBlogEvent.UPDATE_STATUS_RESULT, updateResult );
 			mb.isTrustDomain = true;
 			
+			//设置接口
+			ExternalInterface.addCallback("updateStatus", this.updateStatus );
+			
 			test();
 		}
 		
@@ -105,8 +122,8 @@ package
 		{
 			this.setUser( "1362803703", "562831874" );
 			this.setPerson( "佟野最喜剧-平男", "http://tp1.sinaimg.cn/1069829044/50/1282565209/0" );
-			this.addText( "@{name}，你太给力了" ); 
-			setBackground( "http://eggs.sinaapp.com/assets/geiliable.png"  );
+//			this.addText( "@{name}，你太给力了" ); 
+//			setBackground( "http://eggs.sinaapp.com/assets/geiliable.png"  );
 			
 			function broke():void
 			{
@@ -181,6 +198,7 @@ package
 			}			
 		}
 		
+		private var retObj:Object = null;
 		private function parseData( str:String ): void
 		{
 			var ret:Object
@@ -193,6 +211,7 @@ package
 			//当是正确返回时
 			if ( ret is Object )
 			{
+				retObj = ret;
 				egg.broke();
 				
 				//1 积分 2物品
@@ -216,6 +235,12 @@ package
 			loader.y = egg.y + (egg.height - 50) /2;
 			
 			this.addChildAt( loader, this.getChildIndex( egg ) );	
+			
+			//调用JS
+			var isAvailable:Boolean =ExternalInterface.available;
+			if(isAvailable){
+				ExternalInterface.call("onShowGift", retObj.code, retObj.data );
+			}
 		}
 
 		private var dropShadowFilter :DropShadowFilter = new DropShadowFilter( 10, 45, 0x000000, 0.8, 8, 8, 0.65, 1, false, false, false );
@@ -271,21 +296,23 @@ package
 		}
 		
 		private var blurFilter :BlurFilter = new BlurFilter( 10, 10, 1 );
-		private function setBackground( url:String  ) :void 
+		public function setBackground( url:String  ) :void 
 		{
 			while( bg.numChildren > 0 ){
-				bg.removeChildAt( bg.numChildren );
+				bg.removeChildAt( bg.numChildren -1 );
 			}
 			
-			var loader:Loader = new Loader();
-			
-			loader.x = 0;
-			loader.y = 0;
-			loader.alpha = 0.7;
-			loader.filters = [ blurFilter ];
-			
-			loader.load( new URLRequest( url ) );
-			bg.addChild( loader );
+			if ( url ){
+				var loader:Loader = new Loader();
+				
+				loader.x = 0;
+				loader.y = 0;
+				loader.alpha = 0.7;
+//				loader.filters = [ blurFilter ];
+				
+				loader.load( new URLRequest( url ) );
+				bg.addChild( loader );
+			}
 		}
 		
 		private function setCursor() : void
@@ -299,7 +326,7 @@ package
 
 			var data:BitmapData ;
 			try{
-				data = new BitmapData( this.width, this.height );
+				data = new BitmapData( this.width, 330 );
 				data.draw( this );
 			}catch( e :Error ){
 				data = new BitmapData( 0,0 );
