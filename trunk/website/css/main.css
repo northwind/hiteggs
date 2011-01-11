@@ -2,11 +2,18 @@
 #award{ text-align:center; }
 #award a{ line-height:0px; }
 
-#mleft{ width:400px; float:left; height:400px; }
+#mleft{ width:400px; float:left; height:440px; }
 
-#mright{ width:550px; float:left; height:400px; background:#DAFECF; }
+#mright{ width:550px; float:left; height:440px; background:#DAFECF; position:relative; }
+#friends_title{ height:30px; line-height:30px; color:#777777; font-size:14px; }
+#friends{ height:20px; border:1px solid #ff8000; background:#DAFECF; padding:4px 0 4px 5px; line-height:20px; overflow:hidden; position:absolute; right:10px; top:0px; width:405px; }
+#mright .hover { height: auto; }
+#friends a{ display:block; width:90px; overflow:hidden; padding-left:10px; outline:none; height:20px; margin-bottom:5px; float:left; }
+#friends a:hover{ background: #0080c0; color:#ffffff; text-decoration:none; }
 
-.list { height:200px; }
+#mainFlash{ display:block; margin:0 auto; }
+
+.list { height:220px; }
 .list thead td{ height:25px; line-height:25px; text-align:center; background:#dafecf; font-size:14px; font-weight:bold; color:#777; }
 .list tbody td{ height:20px; line-height:20px; padding:0 10px; text-align:center; }
 
