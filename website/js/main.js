@@ -17,4 +17,13 @@ $( function(){
 						  { name : "가가가가", uid : "432942",  total : "3434", today : "344" } ];
 	
 	$( "#rankTemplate" ).tmpl( tmpl2 ).appendTo( 	$("#rank").find("tbody")  );  	
+	
+	
+	$("#friends").hover( function(){
+		$(this).addClass("hover");
+	}, function(){
+		$(this).removeClass("hover");
+	} );
+	
+	
 } );
