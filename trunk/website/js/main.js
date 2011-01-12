@@ -3,9 +3,8 @@
  */
 $( function(){
 	
-	
+	//中将名单
 	var luckyguys = $("#luckyguys"),  rank = $("#rank");
-	
 	var tmpl = [ { name : "啊啊啊啊", url : "view.html", gift : "礼物1", uid : "A8DK3", date : "2010-12-20" },
 						 { name : "啊啊啊啊", url : "view.html",  gift : "礼物2", uid : "A8DK3", date : "2010-12-20" },
 						  { name : "啊啊啊啊", url : "view.html",  gift : "礼物3", uid : "A8DK3", date : "2010-12-20" } ];
@@ -19,11 +18,56 @@ $( function(){
 	$( "#rankTemplate" ).tmpl( tmpl2 ).appendTo( 	$("#rank").find("tbody")  );  	
 	
 	
+	//显示好友
 	$("#friends").hover( function(){
 		$(this).addClass("hover");
 	}, function(){
 		$(this).removeClass("hover");
 	} );
 	
+	
+	var friends = 120;
+	//初始化微博
+	var source = "562831874";
+	WB.core.load(['connect', 'client'], function() {
+    var cfg = {
+        key: source,
+        xdpath: 'http://eggs.sinaapp.com/xd.html'
+    };
+    WB.connect.init(cfg);
+    WB.client.init(cfg); 
+	
+	if ( WB.connect.checkLogin() ){
+		//已经登录	
+		onLogin();	
+	}else{
+		WB.connect.login(function( ) {
+		    onLogin();
+		});
+	}
+	
+	function onLogin(){
+		
+		setTimeout( function(){
+			
+			WB.client.parseCMD(
+			    "/statuses/friends.json",	//$userid $id会自动替换 
+			    function(sResult, bStatus) {
+					alert( bStatus );
+			        if(bStatus == true){
+			            
+			        }
+			    }, {
+					cursor : parseInt( Math.random() * Math.max(0, friends -50 ) ) ,
+					count  : 50
+				}
+			);			
+			
+		}, 1000 );
+		
+		
+	}
+	
+}); 
 	
 } );
