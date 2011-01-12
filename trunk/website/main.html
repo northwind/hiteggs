@@ -21,10 +21,16 @@
 		
 		<div class="wrap">
 			<div id="header">
-				<div id="links"><a class="red" href="gifts.html">兑换礼品</a>
+				<div id="links"><a id="attention" href="javascript:void(0)">关注最新礼品</a>
+								<a class="red" href="gifts.html">兑换礼品</a>
 										<a href="friends.html">转让积分</a>
 				</div>
-				<span id="username">名字啊啊</span>，您目前拥有积分：<span class="red" id="point">500</span>，共有<span id="together">5</span>位好友参与
+				<span id="logonarea">
+					<span id="username"></span>，您目前拥有积分：<span class="red" id="point"></span> <!--，共有<span id="together">5</span>位好友参与 -->
+				</span>
+				<span id="loginarea">
+					<button>登录</button>
+				</span>		
 			</div>
 			
 			<div id="main">
@@ -74,15 +80,10 @@
 				
 				<div id="mright" >
 					<p id="friends_title" >请选择要砸的好友：</p>
+					<script id="friendsTemplate" type="text/x-jquery-tmpl"> 
+						<a href="javascript:void(0)" uid="${id}" profileUrl="${profile_image_url}" hidefocus="true" title="${description}" onclick="" >${screen_name}</a>
+					</script>	
 					<div id="friends">
-						<a href="javascript:void(0)" hidefocus="true" title="aaaa" onclick="" >荷塘_月色</a>
-						<a href="javascript:void(0)" hidefocus="true" title="aaaa" onclick="" >荷塘_月色</a>
-						<a href="javascript:void(0)" hidefocus="true" title="aaaa" onclick="" >荷塘_月色</a>
-						<a href="javascript:void(0)" hidefocus="true" title="aaaa" onclick="" >荷塘_月色</a>
-						<a href="javascript:void(0)" hidefocus="true" title="aaaa" onclick="" >荷塘_月色</a>
-						<a href="javascript:void(0)" hidefocus="true" title="aaaa" onclick="" >荷塘_月色</a>
-						<a href="javascript:void(0)" hidefocus="true" title="aaaa" onclick="" >荷塘_月色</a>
-						<a href="javascript:void(0)" hidefocus="true" title="aaaa" onclick="" >荷塘_月色</a>
 					</div>
 					
 					<div id="mainFlash">
