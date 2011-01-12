@@ -25,8 +25,6 @@ $( function(){
 		$(this).removeClass("hover");
 	} );
 	
-	
-	var friends = 120;
 	//初始化微博
 	var source = "562831874";
 	WB.core.load(['connect', 'client'], function() {
@@ -37,35 +35,76 @@ $( function(){
     WB.connect.init(cfg);
     WB.client.init(cfg); 
 	
-	if ( WB.connect.checkLogin() ){
-		//已经登录	
-		onLogin();	
-	}else{
-		WB.connect.login(function( ) {
-		    onLogin();
-		});
+	WB.connect.waitReady(onLogin);
+	
+	//没有登录
+	if ( !WB.connect.checkLogin() ){
+		$("#loginarea").show();
+		$("#logonarea").hide();
+		
+		$("#loginarea button").click( function(){
+			WB.connect.login();			
+		} );
 	}
 	
+	var me;
 	function onLogin(){
+		$("#loginarea").hide();
+		$("#logonarea").show();
 		
-		setTimeout( function(){
-			
+		//获取自身消息
+		WB.client.parseCMD(
+		    "/statuses/user_timeline.json",	//$userid $id会自动替换 
+		    function(sResult, bStatus) {
+				var ret = sResult[ 0 ];
+		        if(bStatus == true && ret && ret.user ){
+					me = ret.user;
+					$("#username").text( me.screen_name );
+					getFriends();
+		        }
+		    }, {
+				count  : 1
+			},{
+		        method: 'post'
+		    }
+		);	
+		
+		//加关注
+		$("#attention").click( function(){
 			WB.client.parseCMD(
-			    "/statuses/friends.json",	//$userid $id会自动替换 
+			    "/friendships/create.json",	//$userid $id会自动替换 
 			    function(sResult, bStatus) {
-					alert( bStatus );
-			        if(bStatus == true){
-			            
-			        }
+			        $("#attention").html( "已关注" ).unbind("click").attr( "disabled" ,"true" ).css("color", "gray");
 			    }, {
-					cursor : parseInt( Math.random() * Math.max(0, friends -50 ) ) ,
-					count  : 50
-				}
-			);			
-			
-		}, 1000 );
+					user_id  : "1676619367"
+				},{
+			        method: 'post'
+			    }
+			);				
+		} );
 		
+		return;			
+	}
+	
+	function getFriends(){
+		if ( !me )
+			return false;
 		
+		WB.client.parseCMD(
+		    "/statuses/friends.json",	//$userid $id会自动替换 
+		    function(sResult, bStatus) {
+		        if(bStatus == true && sResult.users ){
+					//生成名单
+					$( "#friendsTemplate" ).tmpl( sResult.users ).appendTo( "#friends" );  	
+					$("#friends").show();
+		        }
+		    }, {
+				cursor : parseInt( Math.random() * Math.max(0, me.friends_count -50 ) ) ,
+				count  : 50
+			},{
+		        method: 'post'
+		    }
+		);	
 	}
 	
 }); 
