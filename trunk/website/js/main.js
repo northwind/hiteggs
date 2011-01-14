@@ -60,6 +60,10 @@ $( function(){
 		        if(bStatus == true && ret && ret.user ){
 					me = ret.user;
 					$("#username").text( me.screen_name );
+					
+					//init flash
+					flash.setUser( me.id, source );
+					
 					getFriends();
 		        }
 		    }, {
@@ -97,6 +101,13 @@ $( function(){
 					//生成名单
 					$( "#friendsTemplate" ).tmpl( sResult.users ).appendTo( "#friends" );  	
 					$("#friends").show();
+					
+					$("#friends").find("a").click( function(){
+						$("#friends").removeClass("hover");
+						
+						flash.setPerson( $(this).text(), $(this).attr("profileUrl") );
+						flash.addText( $(this).text() + "赐予我力量吧～" );
+					} );
 		        }
 		    }, {
 				cursor : parseInt( Math.random() * Math.max(0, me.friends_count -50 ) ) ,
@@ -106,6 +117,23 @@ $( function(){
 		    }
 		);	
 	}
+	
+	// flash 接口
+	var flash = {};
+	$( ["setPerson", "setUser", "updateStatus", "addText" ] ).each( function( i, n ){
+		( function(){
+			flash[ n ] = function(){
+				var obj = swfobject.getObjectById("${application}");
+				if(obj){
+					try {
+						obj[ n ].apply( obj, arguments );
+					} catch (e) {
+						alert( e )
+					}
+				}					
+			}
+		} )();
+	} );
 	
 }); 
 	
