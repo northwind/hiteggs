@@ -11,9 +11,9 @@ $( function(){
 		$(this).removeClass("hover");
 	} );
 	
-	var tmpl = [ { name : "°¡°¡°¡°¡", url : "view.html", key : "A8DK3", expire : "2010-12-20" },
-						 { name : "°¡°¡°¡°¡", url : "view.html",  key : "A8DK3", expire : "2010-12-20" },
-						  { name : "°¡°¡°¡°¡", url : "view.html",  key : "A8DK3", expire : "2010-12-20" } ];
+	var tmpl = [ { name : "å•Šå•Šå•Šå•Š", url : "view.html", key : "A8DK3", expire : "2010-12-20" },
+						 { name : "å•Šå•Šå•Šå•Š", url : "view.html",  key : "A8DK3", expire : "2010-12-20" },
+						  { name : "å•Šå•Šå•Šå•Š", url : "view.html",  key : "A8DK3", expire : "2010-12-20" } ];
 	
 	$( "#giftTemplate" ).tmpl( tmpl ).appendTo( 	$("#list").find("tbody").empty()  );  
 	

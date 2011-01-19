@@ -5,9 +5,9 @@ $( function(){
 	
 	var ul = $("#friends"), form = $("#transfer"), fid = $("#fid"), fname = $("#fname"),  num = $("#num");
 
-	var tmpl = [ { name : "fdsafs¿éÇ® ", avatar_url : "http://tp1.sinaimg.cn/1220291284/50/1281879003/1", uid : "A8DK3", point : "500" },
-						 { name : "¿éÇ® ", avatar_url : "http://tp1.sinaimg.cn/1220291284/50/1281879003/1",  uid : "A8DK3", point : "2443" },
-						  { name : "¿éÇ®", avatar_url : "http://tp1.sinaimg.cn/1220291284/50/1281879003/1",  uid : "A8DK3", point : "220" } ];
+	var tmpl = [ { name : "fdsafså—é’± ", avatar_url : "http://tp1.sinaimg.cn/1220291284/50/1281879003/1", uid : "A8DK3", point : "500" },
+						 { name : "å—é’± ", avatar_url : "http://tp1.sinaimg.cn/1220291284/50/1281879003/1",  uid : "A8DK3", point : "2443" },
+						  { name : "å—é’±", avatar_url : "http://tp1.sinaimg.cn/1220291284/50/1281879003/1",  uid : "A8DK3", point : "220" } ];
 	
 	$( "#friendTemplate" ).tmpl( tmpl ).appendTo( 	$("#friends") );  
 		
@@ -26,23 +26,23 @@ $( function(){
 	form.submit( function( e ){
 		var n =   $.trim( num.val() ); 
 		if ( fid.val() == "" || $.trim( fname.val() ) == "" )
-			msg( "ÇëÏÈÑ¡ÔñºÃÓÑ" );
+			msg( "è¯·å…ˆé€‰æ‹©å¥½å‹" );
 		else if ( n == "" || n == 0 ){
-			msg( "ÇëÊäÈë»ı·Ö" );
+			msg( "è¯·è¾“å…¥ç§¯åˆ†" );
 		}else if ( isNaN( n ) || n < 0 ){
-			msg( "ÈÏÕæµãÂï£¬ÊäÈëÕıÈ·µÄ»ı·Ö" );
+			msg( "è®¤çœŸç‚¹å˜›ï¼Œè¾“å…¥æ­£ç¡®çš„ç§¯åˆ†" );
 		}else{
 			n = n * 1;
 			if ( n > 100 ){
-				msg( "Äã»¹Ã»ÄÇÃ´¶à»ı·ÖÄØ¡«¡«" );
+				msg( "ä½ è¿˜æ²¡é‚£ä¹ˆå¤šç§¯åˆ†å‘¢ï½ï½" );
 			}else if( n > 200 ){
-				msg( "Ê£ÏÂµÄ»ı·Ö²»¹»¸¶ÊÖĞø·ÑµÄÅ¶¡«¡«" );
+				msg( "å‰©ä¸‹çš„ç§¯åˆ†ä¸å¤Ÿä»˜æ‰‹ç»­è´¹çš„å“¦ï½ï½" );
 			}else{
 				$.post( "transfer.html", $(this).serialize(), function( data ){
 					if (data) {
 						msg(data.msg);
 					}else{
-						msg( "·şÎñÆ÷´íÎó£¬ÉÔºóÔÙ³¢ÊÔ" );
+						msg( "æœåŠ¡å™¨é”™è¯¯ï¼Œç¨åå†å°è¯•" );
 					}
 				} );
 			}

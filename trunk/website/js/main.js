@@ -3,29 +3,29 @@
  */
 $( function(){
 	
-	//ÖĞ½«Ãûµ¥
+	//ä¸­å°†åå•
 	var luckyguys = $("#luckyguys"),  rank = $("#rank");
-	var tmpl = [ { name : "°¡°¡°¡°¡", url : "view.html", gift : "ÀñÎï1", uid : "A8DK3", date : "2010-12-20" },
-						 { name : "°¡°¡°¡°¡", url : "view.html",  gift : "ÀñÎï2", uid : "A8DK3", date : "2010-12-20" },
-						  { name : "°¡°¡°¡°¡", url : "view.html",  gift : "ÀñÎï3", uid : "A8DK3", date : "2010-12-20" } ];
+	var tmpl = [ { name : "å•Šå•Šå•Šå•Š", url : "view.html", gift : "ç¤¼ç‰©1", uid : "A8DK3", date : "2010-12-20" },
+						 { name : "å•Šå•Šå•Šå•Š", url : "view.html",  gift : "ç¤¼ç‰©2", uid : "A8DK3", date : "2010-12-20" },
+						  { name : "å•Šå•Šå•Šå•Š", url : "view.html",  gift : "ç¤¼ç‰©3", uid : "A8DK3", date : "2010-12-20" } ];
 	
 	$( "#luckyTemplate" ).tmpl( tmpl ).appendTo( 	$("#luckyguys").find("tbody")  );  
 	
-	var tmpl2 = [ { name : "°¡°¡°¡°¡", uid : "432942", total : "4444", today : "3434" },
-						 { name : "°¡°¡°¡°¡", uid : "432942",  total : "54543", today : "3434" },
-						  { name : "°¡°¡°¡°¡", uid : "432942",  total : "3434", today : "344" } ];
+	var tmpl2 = [ { name : "å•Šå•Šå•Šå•Š", uid : "432942", total : "4444", today : "3434" },
+						 { name : "å•Šå•Šå•Šå•Š", uid : "432942",  total : "54543", today : "3434" },
+						  { name : "å•Šå•Šå•Šå•Š", uid : "432942",  total : "3434", today : "344" } ];
 	
 	$( "#rankTemplate" ).tmpl( tmpl2 ).appendTo( 	$("#rank").find("tbody")  );  	
 	
 	
-	//ÏÔÊ¾ºÃÓÑ
+	//æ˜¾ç¤ºå¥½å‹
 	$("#friends").hover( function(){
 		$(this).addClass("hover");
 	}, function(){
 		$(this).removeClass("hover");
 	} );
 	
-	//³õÊ¼»¯Î¢²©
+	//åˆå§‹åŒ–å¾®åš
 	var source = "562831874";
 	WB.core.load(['connect', 'client'], function() {
     var cfg = {
@@ -37,7 +37,7 @@ $( function(){
 	
 	WB.connect.waitReady(onLogin);
 	
-	//Ã»ÓĞµÇÂ¼
+	//æ²¡æœ‰ç™»å½•
 	if ( !WB.connect.checkLogin() ){
 		$("#loginarea").show();
 		$("#logonarea").hide();
@@ -52,9 +52,9 @@ $( function(){
 		$("#loginarea").hide();
 		$("#logonarea").show();
 		
-		//»ñÈ¡×ÔÉíÏûÏ¢
+		//è·å–è‡ªèº«æ¶ˆæ¯
 		WB.client.parseCMD(
-		    "/statuses/user_timeline.json",	//$userid $id»á×Ô¶¯Ìæ»» 
+		    "/statuses/user_timeline.json",	//$userid $idä¼šè‡ªåŠ¨æ›¿æ¢ 
 		    function(sResult, bStatus) {
 				var ret = sResult[ 0 ];
 		        if(bStatus == true && ret && ret.user ){
@@ -73,12 +73,12 @@ $( function(){
 		    }
 		);	
 		
-		//¼Ó¹Ø×¢
+		//åŠ å…³æ³¨
 		$("#attention").click( function(){
 			WB.client.parseCMD(
-			    "/friendships/create.json",	//$userid $id»á×Ô¶¯Ìæ»» 
+			    "/friendships/create.json",	//$userid $idä¼šè‡ªåŠ¨æ›¿æ¢ 
 			    function(sResult, bStatus) {
-			        $("#attention").html( "ÒÑ¹Ø×¢" ).unbind("click").attr( "disabled" ,"true" ).css("color", "gray");
+			        $("#attention").html( "å·²å…³æ³¨" ).unbind("click").attr( "disabled" ,"true" ).css("color", "gray");
 			    }, {
 					user_id  : "1676619367"
 				},{
@@ -95,10 +95,10 @@ $( function(){
 			return false;
 		
 		WB.client.parseCMD(
-		    "/statuses/friends.json",	//$userid $id»á×Ô¶¯Ìæ»» 
+		    "/statuses/friends.json",	//$userid $idä¼šè‡ªåŠ¨æ›¿æ¢ 
 		    function(sResult, bStatus) {
 		        if(bStatus == true && sResult.users ){
-					//Éú³ÉÃûµ¥
+					//ç”Ÿæˆåå•
 					$( "#friendsTemplate" ).tmpl( sResult.users ).appendTo( "#friends" );  	
 					$("#friends").show();
 					
@@ -106,7 +106,7 @@ $( function(){
 						$("#friends").removeClass("hover");
 						
 						flash.setPerson( $(this).text(), $(this).attr("profileUrl") );
-						flash.addText( $(this).text() + "´ÍÓèÎÒÁ¦Á¿°É¡«" );
+						flash.addText( $(this).text() + "èµäºˆæˆ‘åŠ›é‡å§ï½" );
 					} );
 		        }
 		    }, {
@@ -118,7 +118,7 @@ $( function(){
 		);	
 	}
 	
-	// flash ½Ó¿Ú
+	// flash æ¥å£
 	var flash = {};
 	$( ["setPerson", "setUser", "updateStatus", "addText" ] ).each( function( i, n ){
 		( function(){

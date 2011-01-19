@@ -12,7 +12,7 @@ a:visited, a:link, a:focus, a:active { color:#0000EE; }
 a:hover{ text-decoration:underline; }
 button{ outline:none; -moz-user-select: none; -khtml-user-select: none; user-select: none; }
 button::-moz-focus-inner {  border:none !important; } 
-body {font-size:12px; font-family:'Î¢ÈíÑÅºÚ','Arial','ËÎÌå'; background:#ffffff;}
+body {font-size:12px; font-family:'å¾®è½¯é›…é»‘','Arial','å®‹ä½“'; background:#ffffff;}
 table{ width:100%; }
 br{ height:0px;line-height:0px; font-size:0px; margin:0; padding:0; }
 .clear{ clear:both; height:0px; line-height:0px; font-size:0px; background:#ffffff; overflow:hidden; }
