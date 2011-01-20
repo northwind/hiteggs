@@ -33,63 +33,74 @@
 			var id = Request.QueryString("id");
 			
 			if ( id ){
-				$.get( "getgift.html", { id : id }, function( obj ){
-					if ( obj ){
-						eval( "obj=" + obj );
-						setFrame( obj.url );
-						$("#name").text( obj.name );
-						$("#cost").text( obj.cost );
-
+				$.getJSON( "http://eggs.sinaapp.com/api/index.php/Gift.get", { id : id }, function( gift ){
+					if ( gift ){
+						setFrame( gift.link );
+						$("#name").text( gift.name );
+						$("#cost").text( gift.cost );
+						$("#ad_words").text( gift.ad_words );
+						
 						//初始化微博
 						var source = "562831874";
 						WB.core.load(['connect', 'client'], function() {
-					    var cfg = {
-					        key: source,
-					        xdpath: 'http://eggs.sinaapp.com/xd.html'
-					    };
-					    WB.connect.init(cfg);
-					    WB.client.init(cfg); 
-						
-						WB.connect.waitReady(onLogin);
-						
-						//没有登录
-						if ( !WB.connect.checkLogin() ){
-							$("#nav button").click( function(){
-								WB.connect.login();			
-							} );
-						}
+						    var cfg = {
+						        key: source,
+						        xdpath: 'http://eggs.sinaapp.com/xd.html'
+						    };
+						    WB.connect.init(cfg);
+						    WB.client.init(cfg); 
 							
-						$("#nav button").click( function(){
-							    //兑换
-								$.post( "buygift.html", { id: id }, function( obj ){
-									if (obj) {
-										//更新状态
-										WB.client.parseCMD("/statuses/user_timeline.json", //$userid $id会自动替换 
- 											function(sResult, bStatus){
+							WB.connect.waitReady(onLogin);
+							
+							//没有登录
+							if ( !WB.connect.checkLogin() ){
+								$("#nav button").click( function(){
+									WB.connect.login();			
+								} );
+							}
+								
+							$("#nav button").click( function(){
+								//淘宝
+								if (gift.type == "1") {
+									window.location.href = "buygift.php?gid=" + id;
+								}
+								else {
+									//兑换
+									$.post("buygift.php", {
+										id: id
+									}, function(obj){
+										if (obj) {
+											//更新状态
+											WB.client.parseCMD("/statuses/user_timeline.json", //$userid $id会自动替换 
+ function(sResult, bStatus){
 												if (bStatus == true) {
 													alert("分享成功")
 												}
 											}, {}, {
 												method: 'post'
-										});
-										alert( "哦耶，兑换成功" );
-										jump();
-									}else{
-										alert( "啊哦，你中大奖了，“兑换失败”，请试试其他礼品吧" ); 
-										jump();
-									}								
-								} );
-						} );
+											});
+											alert("哦耶，兑换成功");
+											jump();
+										}
+										else {
+											alert("啊哦，你中大奖了，“兑换失败”，请试试其他礼品吧");
+											jump();
+										}
+									});
+								}	
+							} );
+						});
 					}else{
 						jump();
 					}
 				} );
+				
 			}else{
 				jump();
 			}
 			
 			function jump (){
-				window.location.href = "gifts.html";
+				window.location.href = "index.php";
 			}
 			
 			function setFrame( url ){
