@@ -38,8 +38,8 @@
 					<div id="luckyguys" class="list">
 						<script id="luckyTemplate" type="text/x-jquery-tmpl"> 
 							<tr>
-								<td><a target="_blank" href="http://t.sina.com.cn/${uid}">${name}</a></td>
-								<td><a target="_blank" href="${url}">${gift}</a></td>
+								<td><a target="_blank" href="http://t.sina.com.cn/${sid}">${username}</a></td>
+								<td><a target="_blank" href="gift.html?id=${gid}">${name}</a></td>
 								<td>${date}</td>
 							</tr>
 						</script>
@@ -59,9 +59,9 @@
 					<div id="rank" class="list">
 						<script id="rankTemplate" type="text/x-jquery-tmpl"> 
 							<tr>
-								<td ><a target="_blank" href="http://t.sina.com.cn/${uid}">${name}</a></td>
-								<td >${total}</td>
-								<td >${today}</td>
+								<td ><a target="_blank" href="http://t.sina.com.cn/${sid}">${username}</a></td>
+								<td >${score}</td>
+								<td >${today_score}</td>
 							</tr>
 						</script>						
 						<table cellspacing="0">

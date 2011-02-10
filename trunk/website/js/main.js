@@ -5,18 +5,18 @@ $( function(){
 	
 	//中将名单
 	var luckyguys = $("#luckyguys"),  rank = $("#rank");
-	var tmpl = [ { name : "啊啊啊啊", url : "view.html", gift : "礼物1", uid : "A8DK3", date : "2010-12-20" },
-						 { name : "啊啊啊啊", url : "view.html",  gift : "礼物2", uid : "A8DK3", date : "2010-12-20" },
-						  { name : "啊啊啊啊", url : "view.html",  gift : "礼物3", uid : "A8DK3", date : "2010-12-20" } ];
 	
-	$( "#luckyTemplate" ).tmpl( tmpl ).appendTo( 	$("#luckyguys").find("tbody")  );  
+	$.getJSON( "/api/index.php/Gift.listBuy", function( obj ){
+		if (obj != false && obj.length > 0) {
+			$( "#luckyTemplate" ).tmpl( obj ).appendTo( 	$("#luckyguys").find("tbody")  );
+		}
+	}  );
 	
-	var tmpl2 = [ { name : "啊啊啊啊", uid : "432942", total : "4444", today : "3434" },
-						 { name : "啊啊啊啊", uid : "432942",  total : "54543", today : "3434" },
-						  { name : "啊啊啊啊", uid : "432942",  total : "3434", today : "344" } ];
-	
-	$( "#rankTemplate" ).tmpl( tmpl2 ).appendTo( 	$("#rank").find("tbody")  );  	
-	
+	$.getJSON( "/api/index.php/User.friendsRank", function( obj ){
+		if (obj != false && obj.length > 0) {
+			$( "#rankTemplate" ).tmpl( obj ).appendTo( 	$("#rank").find("tbody")  );  
+		}
+	}  );
 	
 	//显示好友
 	$("#friends").hover( function(){
@@ -64,7 +64,14 @@ $( function(){
 					//init flash
 					flash.setUser( me.id, source );
 					
-					getFriends();
+					//获取砸蛋信息
+					$.getJSON( "/api/index.php/User.get", { sid : me.id }, function( obj ){
+						if ( obj ) {
+							$("#point").text( obj.score );  
+						}
+					}  );		
+					
+					getFriends();			
 		        }
 		    }, {
 				count  : 1
@@ -102,8 +109,11 @@ $( function(){
 					$( "#friendsTemplate" ).tmpl( sResult.users ).appendTo( "#friends" );  	
 					$("#friends").show();
 					
-					$("#friends").find("a").click( function(){
+					$("#friends a").click( function(){
 						$("#friends").removeClass("hover");
+						
+						$("#friends a.selected").removeClass( "selected" );
+						$( this ).addClass( "selected" );
 						
 						flash.setPerson( $(this).text(), $(this).attr("profileUrl") );
 						flash.addText( $(this).text() + "赐予我力量吧～" );

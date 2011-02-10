@@ -21,7 +21,7 @@
 			</div>
 			
 			<div id="history">
-				<script id="giftTemplate" type="text/x-jquery-tmpl"> 
+				<script id="historyTemplate" type="text/x-jquery-tmpl"> 
 					<tr>
 						<td><a target="_blank" href="${url}">${name}</a></td>
 						<td>${key}</td>
@@ -46,31 +46,17 @@
 			</div>
 			
 			<div>
+				<script id="giftTemplate" type="text/x-jquery-tmpl"> 
+					<li>
+						<a title="${ad_words}" href="gift.html?id=${id}">
+							<img src="${image_url}" />
+						</a>
+						<b>${name}</b><br/>
+						<strong>${cost}</strong>
+					</li>
+				</script>
+				
 				<ul id="gifts">
-					<li>
-						<a href="gift.html?id=1">
-							<img src="images/1294482925_songbird.png" />
-						</a>
-						<b><1000</b>
-					</li>
-					<li>
-						<a href="gift.html?id=1">
-							<img src="images/1294482925_songbird.png" />
-						</a>
-						<b><1000</b>
-					</li>
-					<li>
-						<a href="gift.html?id=1">
-							<img src="images/1294482925_songbird.png" />
-						</a>
-						<b><5000</b>
-					</li>
-					<li>
-						<a href="gift.html?id=1">
-							<img src="images/1294482925_songbird.png" />
-						</a>
-						<b><5000</b>
-					</li>
 				</ul>
 				<div class="clear"></div>
 			</div>
