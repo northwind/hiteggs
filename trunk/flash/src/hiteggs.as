@@ -24,7 +24,7 @@ package
 	import flash.text.TextFormat;
 	import flash.ui.Mouse;
 	import flash.utils.*;
-	
+	import flash.system.LoaderContext; 
 	
 	/**
 	 *  获取礼物后，调用JS方法onShowGift 
@@ -48,8 +48,15 @@ package
 		private var egg:Egg;
 		private var bg: Sprite = new Sprite();
 		private var uid:String = "";
+		private var username :String = "";
+		private var ufollows : int = 0;
 		private var source:String = "";
-		private var urlGift:String = "http://eggs.sinaapp.com/1.php";
+		private var canhit:Boolean = false;
+		private var inited:Boolean = false;
+		private var setFriend:Boolean = false;
+		private var urlGift:String = "/api/index.php/User.hitEgg";
+		private var urlJump : String = "http://eggs.sinaapp.com/";
+		private var fsid:String = "";
 		private var fname:String = "";
 		private var furl:String = "";
 		private var text:String = "";
@@ -117,9 +124,9 @@ package
 			mb.isTrustDomain = true;
 			
 			//设置接口
-			ExternalInterface.addCallback("updateStatus", this.updateStatus );
-			ExternalInterface.addCallback("setUser", this.setUser );
-			ExternalInterface.addCallback("setPerson", this.setPerson );
+			ExternalInterface.addCallback("prompt", this.addText );			//显示提示信息
+			ExternalInterface.addCallback("init", this.setConfig );			//初始化
+			ExternalInterface.addCallback("setPerson", this.setPerson );	//设置好友
 			
 			//调用JS
 			var isAvailable:Boolean =ExternalInterface.available;
@@ -127,19 +134,15 @@ package
 				ExternalInterface.call("onFlashComplete");
 			}
 			
-//			test();
+			test();
 		}
 		
 		private function test() : void
 		{
-//			this.setUser( "1362803703", "562831874" );
-//			this.setPerson( "佟野最喜剧-平男", "http://tp1.sinaimg.cn/1069829044/50/1282565209/0" );
+			this.setConfig( "562831874", "1362803703", "笑脸墙", 50, true );
+			this.setPerson( "1676619367", "佟野最喜剧-平男", "http://tp1.sinaimg.cn/1069829044/50/1282565209/0" );
 //			this.addText( "@{name}，你太给力了" ); 
 //			setBackground( "http://eggs.sinaapp.com/assets/geiliable.png"  );
-			
-			function broke():void
-			{
-			}
 			
 //			var intervalId:uint = setTimeout( broke, 2000 );
 		}
@@ -167,27 +170,26 @@ package
 			egg.x = ( 400 - egg.width ) / 2;
 			egg.y = ( 300 - egg.height ) / 2;
 			
-			egg.addEventListener( "hit", onHit );
-			egg.addEventListener( "broke", onBroke );
-			
 			this.addChild( egg );			
+		}
+		
+		private function onEggClick( event: Event ) :void {
+			this.addText( "啊哦，一天只能敲一次，明天再来吧" );
 		}
 		
 		private function onHit( event:Event ):void
 		{
-			//从服务器取得奖品
-			getGift();
-			playAnimation();
-			
-//			updateStatus( "TEST @{name}，你太给力了，帮我赚了500积分。 -- 大家也来试试啊http://eggs.sinaapp.com/" );
+			trace( "onHit" );
+			if ( !this.setFriend ){
+				addText( "还没选择要砸的好友呢" );
+			}else{
+				addText( "" );
+				//从服务器取得奖品
+				getGift();
+				playAnimation();
+			}
 		}
 
-		private function onBroke( event:Event ):void
-		{
-			this.removeChild( cursor );
-			Mouse.show();
-		}
-		
 		private function getGift():void
 		{
 			var loader:URLLoader = new URLLoader();
@@ -195,7 +197,7 @@ package
 			loader.addEventListener(IOErrorEvent.IO_ERROR, onError );
 			
 			var req : URLRequest = new URLRequest( urlGift );
-			req.data = [ "user_id=" + this.uid, "source=" + this.source ].join("&") ;
+			req.data = [ "sid=" + this.uid, "follows=" + this.ufollows ].join("&") ;
 			req.contentType = "application/x-www-form-urlencoded";
 			req.method= "POST";
 			
@@ -206,16 +208,13 @@ package
 		{
 			trace(  "onError can't get gift" );
 			//显示一个错误图片
-			parseData( '{ "code" : "2", "data" : "http://eggs.sinaapp.com/assets/wrong.png" }' );
+			parseData( '{ "ret" : "-1", "msg" : "啊哦，出错啦，刷新页面再试次" }' );
 		}
 
 		private function loaded( evt:Event = null ):void
 		{
 			if ( evt ){
 				var str:String = evt.target.data as String;
-//				var str:String = '{ "code" : "1", "data" : -200 }';
-//				var str:String = '{ "code" : "2", "data" : "http://tp3.sinaimg.cn/1656809190/50/1294496387/0" }';
-				
 				parseData( str );
 			}			
 		}
@@ -223,35 +222,41 @@ package
 		private var retObj:Object = null;
 		private function parseData( str:String ): void
 		{
-			var ret:Object
+			trace( "parseData = " + str );
+			var result:Object;
 			try{
-				ret = JSON.decode( str );
+				result = JSON.decode( str );
 			}catch( e:Error ){ 
-				ret = null; 
+				trace( "parseData parse error" );
+				result = null; 
 			}
 			
 			//当是正确返回时
-			if ( ret is Object )
+			if ( result is Object )
 			{
-				retObj = ret;
-				egg.broke();
-				
-				//1 积分 2物品
-				if ( ret.code == "1" ){
-					showPoint( ret.data as int ); 
-				}else if ( ret.code == "2" ){
-					showImage( ret.data as String ); 
+				retObj = result;
+				//0 积分 2物品 -1 报错信息
+				trace( "result.ret = " +result.ret  );
+				if ( result.ret == "0" ){
+					egg.broke();
+					showPoint( result.msg as int ); 
+					onComplete();
+				}else if ( result.ret == "2" ){
+					egg.broke();
+					showImage( result.msg as String ); 
+					onComplete();
+				}else if ( result.ret == "-1" ){
+					this.addText( result.msg as String );
 				}
-				
-				onComplete();
 			}		
 		}
 		
 		private function onComplete() :void
 		{
 			//加载好友图像
+			var lc:LoaderContext = new LoaderContext(true);
 			var loader:Loader = new Loader();
-			loader.load( new URLRequest( this.furl ) );
+			loader.load( new URLRequest( this.furl ), lc );
 			
 			loader.x = egg.x + (egg.width - 50) /2;
 			loader.y = egg.y + (egg.height - 50) /2;
@@ -261,7 +266,7 @@ package
 			//调用JS
 			var isAvailable:Boolean =ExternalInterface.available;
 			if(isAvailable){
-				ExternalInterface.call("onShowGift", retObj.code, retObj.data );
+				ExternalInterface.call("onShowGift", retObj.ret, retObj.msg );
 			}
 		}
 
@@ -301,8 +306,9 @@ package
 		
 		private function showImage( url:String ):void
 		{
+			var lc:LoaderContext = new LoaderContext(true);
 			var loader:Loader = new Loader();
-			loader.load( new URLRequest( url ) );
+			loader.load( new URLRequest( url ), lc );
 			
 			loader.x = egg.x - 20;
 			loader.y = egg.y - 30;
@@ -325,6 +331,7 @@ package
 			}
 			
 			if ( url ){
+				var lc:LoaderContext = new LoaderContext(true);
 				var loader:Loader = new Loader();
 				
 				loader.x = 0;
@@ -332,41 +339,54 @@ package
 				loader.alpha = 0.7;
 //				loader.filters = [ blurFilter ];
 				
-				loader.load( new URLRequest( url ) );
+				loader.load( new URLRequest( url ), lc );
 				bg.addChild( loader );
 			}
 		}
 		
-		private function setCursor() : void
-		{
-			
-		}
-		
 		private function getSnapshot() : ByteArray
 		{
-			this.cursor.visible = false;
+//			this.cursor.visible = false;
 
 			var data:BitmapData ;
 			try{
 				data = new BitmapData( this.width, 330 );
 				data.draw( this );
 			}catch( e :Error ){
-				data = new BitmapData( 0,0 );
+				trace( "getSnapshot error" );
+				data = new BitmapData( this.width, 330 );
 			}
+//			this.cursor.visible = true;
 			
 			return PNGEncoder.encode( data );
 		}
 		
-		public function setUser( uid:String, source:String ) :void
+		public function setConfig( source:String, uid:String, username:String,
+								   ufollows:int, canhit:Boolean
+									  ) :void
 		{
-			this.uid = uid;
 			this.source = source;
+			this.uid = uid;
+			this.username = username;
+			this.ufollows = ufollows;
+			this.canhit = canhit;
+			this.inited = true;
+
+			trace( "this.canhit = " + this.canhit );
+			if ( this.canhit ){
+				egg.addEventListener( "hit", onHit );
+			}else{
+				egg.clickable = false;
+				egg.addEventListener( "clickegg", onEggClick );
+			}			
 		}
 		
-		public function setPerson( fname:String, furl:String  ) :void
+		public function setPerson( fsid :String, fname:String, furl:String  ) :void
 		{
+			this.fsid = fsid;
 			this.fname = fname;
 			this.furl = furl;
+			this.setFriend = true;
 		}
 		
 		private var dropShadowFilterText :DropShadowFilter = new DropShadowFilter( 5, 45, 0x000000, 0.8, 8, 8, 0.65, 1, false, false, false );
@@ -384,9 +404,18 @@ package
 		
 		public function updateStatus( status:String  ) :void
 		{
-			mb.source = this.source;
-			
-			mb.updateStatus( status, null, getSnapshot() );
+			if ( egg.broken ){
+				mb.source = this.source;
+				status = translate( status );
+				mb.updateStatus( status + " -- 试试你的人品？" + this.urlJump + "?" + Math.random() , null, getSnapshot() );
+			}else{
+				addText( "还没砸蛋呢" );
+			}
+		}
+		
+		public function translate( status:String ) : String
+		{
+			return status.replace( "{name}", "@" + this.fname );
 		}
 		
 		private function updateResult( evt : MicroBlogEvent   ):void
