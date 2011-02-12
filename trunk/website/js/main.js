@@ -2,7 +2,24 @@
  * @author Norris
  */
 $( function(){
-	
+
+	// flash 接口
+	var flash = {};
+	$( ["setPerson", "setUser", "updateStatus", "addText" ] ).each( function( i, n ){
+		( function(){
+			flash[ n ] = function(){
+				var obj = swfobject.getObjectById("${application}");
+				if(obj){
+					try {
+						obj[ n ].apply( obj, arguments );
+					} catch (e) {
+						alert( e )
+					}
+				}					
+			}
+		} )();
+	} );
+		
 	//中将名单
 	var luckyguys = $("#luckyguys"),  rank = $("#rank");
 	
@@ -35,20 +52,6 @@ $( function(){
     WB.connect.init(cfg);
     WB.client.init(cfg); 
 	
-	WB.connect.waitReady(onLogin);
-	
-	//没有登录
-	if ( !WB.connect.checkLogin() ){
-		$("#loginarea").show();
-		$("#logonarea").hide();
-		
-		$("#loginarea button").click( function(){
-			WB.connect.login();			
-		} );
-		
-		alert( "您还没有登录微博，请点击左侧登录按钮" );
-	}
-	
 	var me;
 	function onLogin(){
 		$("#loginarea").hide();
@@ -64,7 +67,9 @@ $( function(){
 					$("#username").text( me.screen_name );
 					
 					//init flash
-					flash.setUser( me.id, source );
+					try {
+						flash.setUser( me.id, source );
+					} catch (e) {}
 					
 					//获取砸蛋信息
 					$.getJSON( "/api/index.php/User.get", { sid : me.id }, function( obj ){
@@ -74,7 +79,9 @@ $( function(){
 					}  );		
 					
 					getFriends();			
-		        }
+		        }else{
+					needLogin();
+				}
 		    }, {
 				count  : 1
 			},{
@@ -98,7 +105,26 @@ $( function(){
 		
 		return;			
 	}
+
+	WB.connect.waitReady(onLogin);
 	
+	//没有登录
+	if ( !WB.connect.checkLogin() ){
+	//if ( !me ){
+		needLogin();
+	}
+	
+	function needLogin(){
+		$("#loginarea").show();
+		$("#logonarea").hide();
+		
+		$("#loginarea button").click( function(){
+			WB.connect.login( onLogin );			
+		} );
+		
+		alert( "您还没有登录微博，请点击左侧登录按钮" );		
+	}
+		
 	function getFriends(){
 		if ( !me )
 			return false;
@@ -129,23 +155,6 @@ $( function(){
 		    }
 		);	
 	}
-	
-	// flash 接口
-	var flash = {};
-	$( ["setPerson", "setUser", "updateStatus", "addText" ] ).each( function( i, n ){
-		( function(){
-			flash[ n ] = function(){
-				var obj = swfobject.getObjectById("${application}");
-				if(obj){
-					try {
-						obj[ n ].apply( obj, arguments );
-					} catch (e) {
-						alert( e )
-					}
-				}					
-			}
-		} )();
-	} );
 	
 }); 
 	
