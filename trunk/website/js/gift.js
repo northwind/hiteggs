@@ -1,5 +1,4 @@
 
-$( function(){
 
 			Request = {
 				QueryString: function(item){
@@ -17,7 +16,7 @@ $( function(){
 						$("#cost").text( gift.cost );
 						$("#ad_words").text( gift.ad_words );
 						
-						//³õÊ¼»¯Î¢²©
+						//åˆå§‹åŒ–å¾®åš
 						var source = "562831874";
 						WB.core.load(['connect', 'client'], function() {
 						    var cfg = {
@@ -29,7 +28,7 @@ $( function(){
 							
 							WB.connect.waitReady(onLogin);
 							
-							//Ã»ÓĞµÇÂ¼
+							//æ²¡æœ‰ç™»å½•
 							if ( !WB.connect.checkLogin() ){
 								$("#nav button").click( function(){
 									WB.connect.login();			
@@ -37,15 +36,15 @@ $( function(){
 							}
 							
 							function  onLogin(){
-								//»ñÈ¡×ÔÉíÏûÏ¢
+								//è·å–è‡ªèº«æ¶ˆæ¯
 								WB.client.parseCMD(
-								    "/statuses/user_timeline.json",	//$userid $id»á×Ô¶¯Ìæ»» 
+								    "/statuses/user_timeline.json",	//$userid $idä¼šè‡ªåŠ¨æ›¿æ¢ 
 								    function(sResult, bStatus) {
 										var ret = sResult[ 0 ];
 								        if(bStatus == true && ret && ret.user ){
 											me = ret.user;
 											$("#nav button").click( function(){
-												window.location.href = "/buygift.php?gid=" + id + "&uid=" + me.id;
+												window.location.href = "/buygift.php?gid=" + id + "&sid=" + me.id;
 											} );													
 								        }
 								    }, {
@@ -75,4 +74,3 @@ $( function(){
 				document.getElementById("iframe").style.height = ( window.innerHeight || ( de && de.clientHeight ) || document.body.clientHeight ) - 30 + "px";
 			}	
 	
-} );
