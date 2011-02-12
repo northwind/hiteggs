@@ -139,12 +139,10 @@ package
 		
 		private function test() : void
 		{
-			this.setConfig( "562831874", "1362803703", "笑脸墙", 50, true );
-			this.setPerson( "1676619367", "佟野最喜剧-平男", "http://tp1.sinaimg.cn/1069829044/50/1282565209/0" );
+//			this.setConfig( "562831874", "1362803703", "笑脸墙", 50, true );
+//			this.setPerson( "1676619367", "佟野最喜剧-平男", "http://tp1.sinaimg.cn/1069829044/50/1282565209/0" );
 //			this.addText( "@{name}，你太给力了" ); 
 //			setBackground( "http://eggs.sinaapp.com/assets/geiliable.png"  );
-			
-//			var intervalId:uint = setTimeout( broke, 2000 );
 		}
 		
 		private function onRollOut( event:MouseEvent ) :void
