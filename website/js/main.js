@@ -45,6 +45,8 @@ $( function(){
 		$("#loginarea button").click( function(){
 			WB.connect.login();			
 		} );
+		
+		alert( "您还没有登录微博，请点击左侧登录按钮" );
 	}
 	
 	var me;
