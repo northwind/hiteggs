@@ -13,6 +13,7 @@ package
 		
 		public var broken:Boolean = false;
 		private var _disable:Boolean = false;
+		private var _clickable:Boolean = true;
 		
 		public function Egg( obj:DisplayObject, obj2 : DisplayObject )
 		{
@@ -25,6 +26,8 @@ package
 			
 			addListener();
 		}
+		
+		
 		
 		private function addListener() :void
 		{
@@ -50,7 +53,14 @@ package
 			if ( broken ){
 				
 			}else{
-				onHit();
+				trace( "this._clickable = " + this._clickable );
+				if ( this._clickable ){
+					//可以hit
+					onHit();
+				}else{
+					//不可以hit
+					this.dispatchEvent( new Event( "clickegg" ) );
+				}
 			}
 		}
 		
@@ -96,5 +106,10 @@ package
 				addListener();
 			}
 		}		
+
+		public function set clickable( b : Boolean ) : void
+		{
+			_clickable = b;
+		}	
 	}
 }
