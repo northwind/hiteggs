@@ -13,7 +13,7 @@ package
 		
 		public var broken:Boolean = false;
 		private var _disable:Boolean = false;
-		private var _clickable:Boolean = true;
+		private var _clickable:Boolean = false;
 		
 		public function Egg( obj:DisplayObject, obj2 : DisplayObject )
 		{
@@ -51,7 +51,7 @@ package
 		private function onEggClick( event : MouseEvent  ) :void 
 		{
 			if ( broken ){
-				
+				//nothing
 			}else{
 				trace( "this._clickable = " + this._clickable );
 				if ( this._clickable ){
@@ -95,6 +95,7 @@ package
 		
 		public function set disable( b : Boolean ) : void
 		{
+			trace( "set egg disable : " + b.toString() );
 			_disable = b;
 			if ( b ){
 				//失效
