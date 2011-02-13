@@ -5,15 +5,17 @@ $( function(){
 
 	// flash 接口
 	var flash = {};
-	$( ["setPerson", "setUser", "updateStatus", "addText" ] ).each( function( i, n ){
+	$( ["init", "prompt", "setPerson" ] ).each( function( i, n ){
 		( function(){
 			flash[ n ] = function(){
-				var obj = swfobject.getObjectById("${application}");
+				var obj = swfobject.getObjectById("mainFlash");
 				if(obj){
 					try {
 						obj[ n ].apply( obj, arguments );
 					} catch (e) {
-						alert( e )
+						if (console && console.debug) {
+							console.debug("flash : " + $.makeArray( arguments ));
+						}
 					}
 				}					
 			}
@@ -66,15 +68,16 @@ $( function(){
 					me = ret.user;
 					$("#username").text( me.screen_name );
 					
-					//init flash
-					try {
-						flash.setUser( me.id, source );
-					} catch (e) {}
-					
 					//获取砸蛋信息
 					$.getJSON( "/api/index.php/User.get", { sid : me.id }, function( obj ){
 						if ( obj ) {
 							$("#point").text( obj.score );  
+							
+							//init flash
+							try {
+								flash.init( source, me.id, me.screen_name, me.followers_count, obj.today_hits <= 0 );
+							} catch (e) {	}
+												
 						}
 					}  );		
 					
@@ -113,14 +116,15 @@ $( function(){
 	//if ( !me ){
 		needLogin();
 	}
-	
+
+	$("#loginarea button").click( function(){
+		//WB.connect.login( onLogin );			
+		WB.connect.loginStatus( -1 );
+		WB.connect.login( onLogin );
+	} );	
 	function needLogin(){
 		$("#loginarea").show();
 		$("#logonarea").hide();
-		
-		$("#loginarea button").click( function(){
-			WB.connect.login( onLogin );			
-		} );
 		
 		alert( "您还没有登录微博，请点击左侧登录按钮" );		
 	}
@@ -143,8 +147,10 @@ $( function(){
 						$("#friends a.selected").removeClass( "selected" );
 						$( this ).addClass( "selected" );
 						
-						flash.setPerson( $(this).text(), $(this).attr("profileUrl") );
-						flash.addText( $(this).text() + "赐予我力量吧～" );
+						try {
+							flash.setPerson( $(this).attr("sid"),  $(this).text(), $(this).attr("profileUrl") );
+							flash.prompt( "@" + $(this).text() + "赐予我力量吧～" );
+						} catch (e) {}
 					} );
 		        }
 		    }, {
@@ -159,3 +165,16 @@ $( function(){
 }); 
 	
 } );
+//砸蛋后FLASH回调
+function onShowGift( ret, msg ){
+	//不能再选择好友  修改分数
+	if ( ret == "0" ){
+		$("#friends a").unbind( "click" );
+		$("#point").text( $("#point").text() * 1 + (msg * 1) );
+	}
+	if ( ret == "2" ){
+		$("#friends a").unbind( "click" );
+	}
+}
+
+

@@ -29,7 +29,7 @@
 					<span id="username">用户</span>，您目前拥有积分：<span class="red" id="point"></span> <!--，共有<span id="together">5</span>位好友参与 -->
 				</span>
 				<span id="loginarea">
-					<button>登录</button>
+					<button>登录新浪微博</button>
 				</span>		
 			</div>
 			
@@ -81,7 +81,7 @@
 				<div id="mright" >
 					<p id="friends_title" >请选择要砸的好友：</p>
 					<script id="friendsTemplate" type="text/x-jquery-tmpl"> 
-						<a href="javascript:void(0)" uid="${id}" profileUrl="${profile_image_url}" hidefocus="true" title="${description}" onclick="" >${screen_name}</a>
+						<a href="javascript:void(0)" sid="${id}" profileUrl="${profile_image_url}" hidefocus="true" title="${description}" onclick="" >${screen_name}</a>
 					</script>	
 					<div id="friends">
 					</div>
@@ -90,16 +90,15 @@
 						
 					</div>
 					<script>
-							var urlFlash = "http://eggs.sinaapp.com/hiteggs.swf";
-							//var urlFlash = "/trunk/flash/bin/hiteggs.swf";
+							var urlFlash = "/hiteggs.swf";
 							swfobject.embedSWF( urlFlash + "?_=" + (+new Date()) , "mainFlash", "400", "400", "10.0.0.0", "http://www.sinaimg.cn/cj/swf/20100612/expressInstall.swf",  {},{
 								name: "mainFlash",
 								//wmode: "opaque",
 								allowScriptAccess: "always",
 								scale: "noborder",
 								bgcolor : "#DAFECF",
-								menu: "true",
-								allowFullScreen:'true'
+								menu: "false",
+								allowFullScreen:'false'
 							}, null, function(){
 								
 							} );
