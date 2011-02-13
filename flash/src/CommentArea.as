@@ -7,7 +7,7 @@ package
 	
 	public class CommentArea extends Sprite
 	{
-		public var ct:hiteggs;
+		public var ct:hiteggs = null;
 		
 		public function CommentArea(  )
 		{

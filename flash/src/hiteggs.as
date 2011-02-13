@@ -20,11 +20,11 @@ package
 	import flash.net.URLRequestHeader;
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
+	import flash.system.LoaderContext;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	import flash.ui.Mouse;
-	import flash.utils.*;
-	import flash.system.LoaderContext; 
+	import flash.utils.*; 
 	
 	/**
 	 *  获取礼物后，调用JS方法onShowGift 
@@ -60,6 +60,7 @@ package
 		private var fname:String = "";
 		private var furl:String = "";
 		private var text:String = "";
+		private var sending:int = 0;
 		
 		private var cursor:DisplayObject = new hammerClass();
 		private var textFiled:TextField = new TextField();
@@ -167,25 +168,28 @@ package
 			
 			egg.x = ( 400 - egg.width ) / 2;
 			egg.y = ( 300 - egg.height ) / 2;
-			
+
+			egg.addEventListener( "hit", onHit );
+			egg.addEventListener( "clickegg", onEggClick );
+				
 			this.addChild( egg );			
 		}
 		
 		private function onEggClick( event: Event ) :void {
-			this.addText( "啊哦，一天只能敲一次，明天再来吧" );
+			if ( !this.setFriend ){
+				addText( "还没选择要砸的好友呢" );
+			}else{
+				this.addText( "啊哦，一天只能敲一次，明天再来吧" );
+			}	
 		}
 		
 		private function onHit( event:Event ):void
 		{
 			trace( "onHit" );
-			if ( !this.setFriend ){
-				addText( "还没选择要砸的好友呢" );
-			}else{
 				addText( "" );
 				//从服务器取得奖品
 				getGift();
 				playAnimation();
-			}
 		}
 
 		private function getGift():void
@@ -371,12 +375,7 @@ package
 			this.inited = true;
 
 			trace( "this.canhit = " + this.canhit );
-			if ( this.canhit ){
-				egg.addEventListener( "hit", onHit );
-			}else{
-				egg.clickable = false;
-				egg.addEventListener( "clickegg", onEggClick );
-			}			
+			egg.clickable = this.canhit && this.setFriend ;
 		}
 		
 		public function setPerson( fsid :String, fname:String, furl:String  ) :void
@@ -385,6 +384,8 @@ package
 			this.fname = fname;
 			this.furl = furl;
 			this.setFriend = true;
+			
+			egg.clickable = this.canhit && this.setFriend ;
 		}
 		
 		private var dropShadowFilterText :DropShadowFilter = new DropShadowFilter( 5, 45, 0x000000, 0.8, 8, 8, 0.65, 1, false, false, false );
@@ -403,9 +404,14 @@ package
 		public function updateStatus( status:String  ) :void
 		{
 			if ( egg.broken ){
+				if (  sending == 4 ){
+					addText( "已经分享过啦" );
+					return;
+				}
+				sending = 4;	
 				mb.source = this.source;
 				status = translate( status );
-				mb.updateStatus( status + " -- 试试你的人品？" + this.urlJump + "?" + Math.random() , null, getSnapshot() );
+				mb.updateStatus( status + " -- 砸彩蛋，得积分，换礼品，走过路过不要错过了 " + this.urlJump + "?" + Math.random() , null, getSnapshot() );
 			}else{
 				addText( "还没砸蛋呢" );
 			}
