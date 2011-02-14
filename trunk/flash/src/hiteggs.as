@@ -51,6 +51,7 @@ package
 		private var username :String = "";
 		private var ufollows : int = 0;
 		private var source:String = "";
+		private var token:String = "";
 		private var canhit:Boolean = false;
 		private var inited:Boolean = false;
 		private var setFriend:Boolean = false;
@@ -107,7 +108,7 @@ package
 			area.x = 0;
 			area.y = 330;
 			area.ct = this;
-			
+			 
 			this.addChild( area );			
 			
 			
@@ -140,7 +141,7 @@ package
 		
 		private function test() : void
 		{
-//			this.setConfig( "562831874", "1362803703", "笑脸墙", 50, true );
+//			this.setConfig( "562831874", "0", "1362803703", "笑脸墙", 50, true );
 //			this.setPerson( "1676619367", "佟野最喜剧-平男", "http://tp1.sinaimg.cn/1069829044/50/1282565209/0" );
 //			this.addText( "@{name}，你太给力了" ); 
 //			setBackground( "http://eggs.sinaapp.com/assets/geiliable.png"  );
@@ -363,11 +364,13 @@ package
 			return PNGEncoder.encode( data );
 		}
 		
-		public function setConfig( source:String, uid:String, username:String,
+		public function setConfig( source:String, token:String, 
+								   uid:String, username:String,
 								   ufollows:int, canhit:Boolean
 									  ) :void
 		{
 			this.source = source;
+			this.token = token;
 			this.uid = uid;
 			this.username = username;
 			this.ufollows = ufollows;
@@ -404,12 +407,22 @@ package
 		public function updateStatus( status:String  ) :void
 		{
 			if ( egg.broken ){
+				if (  sending == 2 ){
+					addText( "正在分享" );
+					return;
+				}
 				if (  sending == 4 ){
 					addText( "已经分享过啦" );
 					return;
 				}
-				sending = 4;	
+				
+				sending = 2;	
 				mb.source = this.source;
+				//mb.accessTokenKey = "562831874";
+				//mb.accessTokenSecrect = "5c4e7cbd52ceb59aaaf054b0afab6930"; 	
+				//mb.anywhereToken = this.token;
+				//trace( "token  : " + mb.anywhereToken );
+				
 				status = translate( status );
 				mb.updateStatus( status + " -- 砸彩蛋，得积分，换礼品，走过路过不要错过了 " + this.urlJump + "?" + Math.random() , null, getSnapshot() );
 			}else{
@@ -424,6 +437,7 @@ package
 		
 		private function updateResult( evt : MicroBlogEvent   ):void
 		{
+			sending = 4;
 			addText( "发送成功" );
 		}
 	}
