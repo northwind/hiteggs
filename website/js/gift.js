@@ -7,54 +7,17 @@
 				}
 			};
 			var id = Request.QueryString("id");
+			var sid =  $.cookie("sid");
 			
-			if ( id ){
+			if ( id && sid ){
+				$("#form").attr( "action" , "/buygift.php?gid=" + id + "&sid=" + sid );
+						
 				$.getJSON( "/api/index.php/Gift.get", { id : id }, function( gift ){
 					if ( gift ){
 						setFrame( gift.link );
 						$("#name").text( gift.name );
 						$("#cost").text( gift.cost );
 						$("#ad_words").text( gift.ad_words );
-						
-						//初始化微博
-						var source = "562831874";
-						WB.core.load(['connect', 'client'], function() {
-						    var cfg = {
-						        key: source,
-						        xdpath: 'http://eggs.sinaapp.com/xd.html'
-						    };
-						    WB.connect.init(cfg);
-						    WB.client.init(cfg); 
-							
-							WB.connect.waitReady(onLogin);
-							
-							//没有登录
-							if ( !WB.connect.checkLogin() ){
-								$("#nav button").click( function(){
-									WB.connect.login();			
-								} );
-							}
-							
-							function  onLogin(){
-								//获取自身消息
-								WB.client.parseCMD(
-								    "/statuses/user_timeline.json",	//$userid $id会自动替换 
-								    function(sResult, bStatus) {
-										var ret = sResult[ 0 ];
-								        if(bStatus == true && ret && ret.user ){
-											me = ret.user;
-											$("#nav button").click( function(){
-												window.location.href = "/buygift.php?gid=" + id + "&sid=" + me.id;
-											} );													
-								        }
-								    }, {
-										count  : 1
-									},{
-								        method: 'post'
-								    }
-								);									
-							}
-						});
 					}else{
 						jump();
 					}
@@ -65,7 +28,7 @@
 			}
 			
 			function jump (){
-				window.location.href = "index.php";
+				window.location.href = "main.php";
 			}
 			
 			function setFrame( url ){

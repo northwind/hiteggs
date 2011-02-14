@@ -44,127 +44,79 @@ $( function(){
 		$(this).removeClass("hover");
 	} );
 	
-	//初始化微博
-	var source = "562831874";
-	WB.core.load(['connect', 'client'], function() {
-    var cfg = {
-        key: source,
-        xdpath: 'http://eggs.sinaapp.com/xd.html'
-    };
-    WB.connect.init(cfg);
-    WB.client.init(cfg); 
-	
+	var sid = $.cookie( "sid" );
 	var me;
-	function onLogin(){
-		$("#loginarea").hide();
-		$("#logonarea").show();
-		
-		//获取自身消息
-		WB.client.parseCMD(
-		    "/statuses/user_timeline.json",	//$userid $id会自动替换 
-		    function(sResult, bStatus) {
-				var ret = sResult[ 0 ];
-		        if(bStatus == true && ret && ret.user ){
-					me = ret.user;
-					$("#username").text( me.screen_name );
-					
-					//获取砸蛋信息
-					$.getJSON( "/api/index.php/User.get", { sid : me.id }, function( obj ){
-						if ( obj ) {
-							$("#point").text( obj.score );  
-							
-							//init flash
-							try {
-								flash.init( source, me.id, me.screen_name, me.followers_count, obj.today_hits <= 0 );
-							} catch (e) {	}
-												
-						}
-					}  );		
-					
-					getFriends();			
-		        }else{
-					needLogin();
-				}
-		    }, {
-				count  : 1
-			},{
-		        method: 'post'
-		    }
-		);	
-		
-		//加关注
-		$("#attention").click( function(){
-			WB.client.parseCMD(
-			    "/friendships/create.json",	//$userid $id会自动替换 
-			    function(sResult, bStatus) {
-			        $("#attention").html( "已关注" ).unbind("click").attr( "disabled" ,"true" ).css("color", "gray");
-			    }, {
-					user_id  : "1676619367"
-				},{
-			        method: 'post'
-			    }
-			);				
-		} );
-		
-		return;			
-	}
+	var source = "562831874";
+	var token = $.cookie( "anywhereToken" );
+	//获取自身消息
+	$.getJSON( "/api/index.php/User.get", { sid : sid }, function( obj ){
+		if ( obj ) {
+			me = obj;
+			$("#username").text( me.username );
+			$("#point").text( me.score );  
 
-	WB.connect.waitReady(onLogin);
-	
-	//没有登录
-	if ( !WB.connect.checkLogin() ){
-	//if ( !me ){
-		needLogin();
-	}
+			var urlFlash = "/hiteggs.swf";
+			swfobject.embedSWF( urlFlash + "?_=" + (+new Date()) , "mainFlash", "400", "400", "10.0.0.0", "http://www.sinaimg.cn/cj/swf/20100612/expressInstall.swf",  {},{
+				name: "mainFlash",
+				wmode: "opaque",
+				allowScriptAccess: "always",
+				scale: "noborder",
+				bgcolor : "#DAFECF",
+				menu: "false",
+				allowFullScreen:'false'
+			}, null, function(){
+				getFriends();
+				
+				//init flash
+				setTimeout( function(){
+					try {
+						flash.init( source, token, me.sid, me.username, me.friends, me.today_hits <= 0 );
+					} catch (e) {
+						//alert( e );
+					}					
+				}, 200 );
+								
+			} );
+										
+		}else{
+			alert( "抱歉出错了，刷新页面再试试" );
+		}
+	}  );		
+					
 
-	$("#loginarea button").click( function(){
-		//WB.connect.login( onLogin );			
-		WB.connect.loginStatus( -1 );
-		WB.connect.login( onLogin );
-	} );	
-	function needLogin(){
-		$("#loginarea").show();
-		$("#logonarea").hide();
-		
-		alert( "您还没有登录微博，请点击左侧登录按钮" );		
-	}
-		
 	function getFriends(){
-		if ( !me )
-			return false;
-		
-		WB.client.parseCMD(
-		    "/statuses/friends.json",	//$userid $id会自动替换 
-		    function(sResult, bStatus) {
-		        if(bStatus == true && sResult.users ){
-					//生成名单
-					$( "#friendsTemplate" ).tmpl( sResult.users ).appendTo( "#friends" );  	
-					$("#friends").show();
+		$.getJSON( "/api/index.php/Weibo.getFriends50", function( obj ){
+			if ( obj ) {
+				obj.users
+				//生成名单
+				$( "#friendsTemplate" ).tmpl( obj.users ).appendTo( "#friends" );  	
+				$("#friends").show();
+
+				$("#friends a").click( function(){
+					$("#friends").removeClass("hover");
 					
-					$("#friends a").click( function(){
-						$("#friends").removeClass("hover");
-						
-						$("#friends a.selected").removeClass( "selected" );
-						$( this ).addClass( "selected" );
-						
-						try {
-							flash.setPerson( $(this).attr("sid"),  $(this).text(), $(this).attr("profileUrl") );
-							flash.prompt( "@" + $(this).text() + "赐予我力量吧～" );
-						} catch (e) {}
-					} );
-		        }
-		    }, {
-				cursor : parseInt( Math.random() * Math.max(0, me.friends_count -50 ) ) ,
-				count  : 50
-			},{
-		        method: 'post'
-		    }
-		);	
+					$("#friends a.selected").removeClass( "selected" );
+					$( this ).addClass( "selected" );
+					
+					try {
+						flash.setPerson( $(this).attr("sid"),  $(this).text(), $(this).attr("profileUrl") );
+						flash.prompt( "@" + $(this).text() + "赐予我力量吧～" );
+					} catch (e) {}
+				} );
+														
+			}else{
+				alert( "抱歉出错了，刷新页面再试试" );
+			}
+		}  );			
 	}
 	
-}); 
 	
 } );
+
+function onFlashComplete (){
+//	alert( "flash is ok!" );
+};
+			
 //砸蛋后FLASH回调
 function onShowGift( ret, msg ){
 	//不能再选择好友  修改分数
