@@ -3,7 +3,7 @@
  */
 $( function(){
 	
-	var url = "http://eggs.sinaapp.com/api/index.php/Gift.add";
+	var url = "http://eggs.sinaapp.com/api/index.php/Gift.add2";
 	
 	var excuting = false;
 	$("#form").submit( function( e ){
@@ -28,7 +28,7 @@ $( function(){
 			$.post( url,  $( this ).serialize()  , function( data ){
 				var obj = jQuery.parseJSON( data );
 				if ( obj && obj.ret == 0 ){
-					alert( "提交成功，请等待审核"  );
+					alert( "提交成功"  );
 				}else{
 					alert( (obj && obj.msg) || "提交失败"  );
 				}
