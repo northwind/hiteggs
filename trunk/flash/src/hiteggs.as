@@ -30,7 +30,7 @@ package
 	 *  获取礼物后，调用JS方法onShowGift 
 	 */	
 	
-	[SWF(frameRate="20",width="400",height="400" )]
+	[SWF(frameRate="20",width="500",height="480" )]
 	public class hiteggs extends Sprite
 	{
 		[Embed("assets/egg2.png")]
@@ -55,7 +55,8 @@ package
 		private var canhit:Boolean = false;
 		private var inited:Boolean = false;
 		private var setFriend:Boolean = false;
-		private var urlGift:String = "/api/index.php/User.hitEgg";
+//		private var urlGift:String = "/api/index.php/User.hitEgg";
+		private var urlGift:String = "http://eggs.sinaapp.com/api/index.php/User.hitEgg";
 		private var urlJump : String = "http://eggs.sinaapp.com/";
 		private var fsid:String = "";
 		private var fname:String = "";
@@ -98,7 +99,7 @@ package
 			tf.bold = 700;
 			tf.color = 0xFF0000;
 			textFiled.defaultTextFormat = tf;
-			textFiled.y = 300;
+			textFiled.y = 375;
 			textFiled.height = 30;
 			textFiled.mouseEnabled = false;
 			this.addChild( textFiled );
@@ -106,7 +107,7 @@ package
 			//设置点评区
 			var area:CommentArea = new CommentArea();
 			area.x = 0;
-			area.y = 330;
+			area.y = 405;
 			area.ct = this;
 			 
 			this.addChild( area );			
@@ -136,15 +137,15 @@ package
 				ExternalInterface.call("onFlashComplete");
 			}
 			
-			test();
+//			test();
 		}
 		
 		private function test() : void
 		{
-//			this.setConfig( "562831874", "0", "1362803703", "笑脸墙", 50, true );
-//			this.setPerson( "1676619367", "佟野最喜剧-平男", "http://tp1.sinaimg.cn/1069829044/50/1282565209/0" );
+			this.setConfig( "562831874", "0", "1362803703", "笑脸墙", 50, true );
+			this.setPerson( "1676619367", "佟野最喜剧-平男", "http://tp4.sinaimg.cn/1676619367/180/1262140190/1" );
 //			this.addText( "@{name}，你太给力了" ); 
-//			setBackground( "http://eggs.sinaapp.com/assets/geiliable.png"  );
+//			setBackground( "http://eggs.sinaapp.com/assets/geiliable.jpg"  );
 		}
 		
 		private function onRollOut( event:MouseEvent ) :void
@@ -167,8 +168,8 @@ package
 		{
 			egg = new Egg( obj, obj2 );
 			
-			egg.x = ( 400 - egg.width ) / 2;
-			egg.y = ( 300 - egg.height ) / 2;
+			egg.x = ( 500 - egg.width ) / 2;
+			egg.y = ( 375 - egg.height ) / 2;
 
 			egg.addEventListener( "hit", onHit );
 			egg.addEventListener( "clickegg", onEggClick );
@@ -261,8 +262,8 @@ package
 			var loader:Loader = new Loader();
 			loader.load( new URLRequest( this.furl ), lc );
 			
-			loader.x = egg.x + (egg.width - 50) /2;
-			loader.y = egg.y + (egg.height - 50) /2;
+			loader.x = egg.x + (egg.width - 180) /2;
+			loader.y = egg.y + (egg.height - 180) /2;
 			
 			this.addChildAt( loader, this.getChildIndex( egg ) );	
 			
@@ -282,7 +283,7 @@ package
 			
 			var tf:TextFormat = new TextFormat( null, 20 );
 			tf.font = "Verdana";
-			tf.size = 20;
+			tf.size = 30;
 			tf.bold = 700;
 			if ( n > 0 ){
 				tf.color = 0xFF0000;
@@ -296,13 +297,16 @@ package
 			numFiled.x = (base.width - numFiled.width) / 2;
 			numFiled.y = (base.height - numFiled.textHeight) / 2;
 			
-//			container.addChild( base );
+			numFiled.filters = [ dropShadowFilter ];
+			
+			//显示底图
+			container.addChild( base );
 			container.addChild( numFiled );
 			
 			container.x = egg.x - 20;
 			container.y = egg.y - 30;
 			
-			container.filters = [ dropShadowFilter ];
+//			container.filters = [ dropShadowFilter ]; 
 			
 			this.addChild( container );
 		}		
@@ -344,6 +348,11 @@ package
 				
 				loader.load( new URLRequest( url ), lc );
 				bg.addChild( loader );
+				
+				egg.alpha = 0.9;
+				
+			}else{
+				egg.alpha = 1;
 			}
 		}
 		
@@ -353,11 +362,11 @@ package
 
 			var data:BitmapData ;
 			try{
-				data = new BitmapData( this.width, 330 );
+				data = new BitmapData( this.width, 405 );
 				data.draw( this );
 			}catch( e :Error ){
 				trace( "getSnapshot error" );
-				data = new BitmapData( this.width, 330 );
+				data = new BitmapData( this.width, 405 );
 			}
 //			this.cursor.visible = true;
 			
@@ -400,7 +409,7 @@ package
 
 			textFiled.text = this.text;
 			textFiled.width = textFiled.textWidth + 5;
-			textFiled.x = (400 - textFiled.width ) / 2;
+			textFiled.x = (500 - textFiled.width ) / 2;
 			textFiled.filters = [ dropShadowFilterText, growFilterText ];
 		}
 		
@@ -424,7 +433,7 @@ package
 				//trace( "token  : " + mb.anywhereToken );
 				
 				status = translate( status );
-				mb.updateStatus( status + " -- 砸彩蛋，得积分，换礼品，走过路过不要错过了 " + this.urlJump + "?" + Math.random() , null, getSnapshot() );
+				mb.updateStatus( status + " -- 轻松砸彩蛋，免费得大奖。 更有丰厚积分等你拿哦。 " + this.urlJump + "?" + Math.random() , null, getSnapshot() );
 			}else{
 				addText( "还没砸蛋呢" );
 			}

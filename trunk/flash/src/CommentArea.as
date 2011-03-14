@@ -14,7 +14,7 @@ package
 			super();
 			
 			this.graphics.beginFill( 0xDAFECF );
-			this.graphics.drawRect( 0, 0, 400, 70 );
+			this.graphics.drawRect( 0, 0, 500, 80 );
 			this.graphics.endFill();
 			
 			//说明文字
@@ -33,14 +33,14 @@ package
 		
 		public function init() :void
 		{
-			this.addChild( createButton( "哭", 10, 25, "{name}，我哭啊", "http://eggs.sinaapp.com/assets/cry.png" ) );
-			this.addChild( createButton( "杯具", 110, 25, "{name}，杯具了", "http://eggs.sinaapp.com/assets/beiju.png") );
-			this.addChild( createButton( "亲亲", 210, 25, "{name}，亲亲", "http://eggs.sinaapp.com/assets/kiss.png" ) );
-			this.addChild( createButton( "真棒", 310, 25, "{name}，你真棒", "http://eggs.sinaapp.com/assets/great.png" ) );
-			this.addChild( createButton( "浮云", 10, 50, "{name}，这都是浮云", "http://eggs.sinaapp.com/assets/shenma.png" ) );
-			this.addChild( createButton( "给力", 110, 50, "{name}，真给力", "http://eggs.sinaapp.com/assets/geiliable.png" ) );
-			this.addChild( createButton( "为什么", 210, 50, "{name}，为什么呢？", "http://eggs.sinaapp.com/assets/why.png" ) );
-			this.addChild( createButton( "不给力", 310, 50, "{name}，太不给力了", "http://eggs.sinaapp.com/assets/ungeiliable.png" ) );
+			this.addChild( createButton( "哭", 36, 25, "{name}，我哭啊", "http://eggs.sinaapp.com/assets/cry.png" ) );
+			this.addChild( createButton( "杯具", 152, 25, "{name}，杯具了", "http://eggs.sinaapp.com/assets/beiju.png") );
+			this.addChild( createButton( "亲亲", 264, 25, "{name}，亲亲", "http://eggs.sinaapp.com/assets/kiss.jpg" ) );
+			this.addChild( createButton( "真棒", 376, 25, "{name}，你真棒", "http://eggs.sinaapp.com/assets/great.jpg" ) );
+			this.addChild( createButton( "浮云", 36, 50, "{name}，这都是浮云", "http://eggs.sinaapp.com/assets/shenma.jpg" ) );
+			this.addChild( createButton( "给力", 152, 50, "{name}，真给力", "http://eggs.sinaapp.com/assets/geiliable.jpg" ) );
+			this.addChild( createButton( "为什么", 264, 50, "{name}，为什么呢？", "http://eggs.sinaapp.com/assets/why.jpg" ) );
+			this.addChild( createButton( "不给力", 376, 50, "{name}，太不给力了", "http://eggs.sinaapp.com/assets/ungeiliable.jpg" ) );
 		}
 		
 		public function createButton( label :String, x :int, y: int, comment :String, img:String ) : CustomButton
