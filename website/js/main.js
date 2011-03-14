@@ -71,7 +71,7 @@ $( function(){
 				//init flash
 				setTimeout( function(){
 					try {
-						flash.init( source, token, me.sid, me.username, me.friends, me.today_hits <= 0 );
+						flash.init( source, token, me.sid, me.username, me.friends, true );
 					} catch (e) {
 						//alert( e );
 					}					
