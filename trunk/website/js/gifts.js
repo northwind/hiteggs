@@ -36,6 +36,9 @@ $( function(){
 			}, function(){
 				$(this).removeClass("hover");
 			} );			
+		}else{
+			$("<center/>").append( "<img src='http://eggs.sinaapp.com/images/coming-soon.jpg' title='' />" )
+					 .appendTo( $("#gifts").parent() );
 		}
 	}  );
 	

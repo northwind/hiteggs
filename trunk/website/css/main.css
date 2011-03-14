@@ -4,7 +4,7 @@
 
 #mleft{ width:400px; float:left; height:440px; }
 
-#mright{ width:550px; float:left; height:440px; background:#DAFECF; position:relative; }
+#mright{ width:550px; float:left; height:520px; background:#DAFECF; position:relative; }
 #friends_title{ height:30px; line-height:30px; color:#777777; font-size:14px; }
 #friends{ display:none; height:20px; border:1px solid #ff8000; background:#DAFECF; padding:4px 0 4px 5px; line-height:20px; overflow:hidden; position:absolute; right:10px; top:0px; width:405px; }
 #mright .hover { height: auto; }
