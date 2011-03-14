@@ -56,7 +56,8 @@ $( function(){
 			$("#point").text( me.score );  
 
 			var urlFlash = "/hiteggs.swf";
-			swfobject.embedSWF( urlFlash + "?_=" + (+new Date()) , "mainFlash", "400", "400", "10.0.0.0", "http://www.sinaimg.cn/cj/swf/20100612/expressInstall.swf",  {},{
+			var urlFlash = "http://eggs.sinaapp.com/hiteggs.swf";
+			swfobject.embedSWF( urlFlash + "?_=" + (+new Date()) , "mainFlash", "500", "480", "10.0.0.0", "http://www.sinaimg.cn/cj/swf/20100612/expressInstall.swf",  {},{
 				name: "mainFlash",
 				wmode: "opaque",
 				allowScriptAccess: "always",
@@ -87,7 +88,9 @@ $( function(){
 	function getFriends(){
 		$.getJSON( "/api/index.php/Weibo.getFriends50", function( obj ){
 			if ( obj ) {
-				obj.users
+				for (var i=0; i<obj.users.length; i++) {
+					obj.users[i].profile_image_url = obj.users[i].profile_image_url.replace( /\/50\//, "/180/" ); 
+				}
 				//生成名单
 				$( "#friendsTemplate" ).tmpl( obj.users ).appendTo( "#friends" );  	
 				$("#friends").show();
