@@ -24,18 +24,21 @@ $( function(){
 		
 	//中将名单
 	var luckyguys = $("#luckyguys"),  rank = $("#rank");
+	setTimeout( function(){
+		$.getJSON( "/api/index.php/Gift.listBuy", function( obj ){
+			if (obj != false && obj.length > 0) {
+				$( "#luckyTemplate" ).tmpl( obj ).appendTo( 	$("#luckyguys").find("tbody")  );
+			}
+		}  );
+	}, 500 );
 	
-	$.getJSON( "/api/index.php/Gift.listBuy", function( obj ){
-		if (obj != false && obj.length > 0) {
-			$( "#luckyTemplate" ).tmpl( obj ).appendTo( 	$("#luckyguys").find("tbody")  );
-		}
-	}  );
-	
-	$.getJSON( "/api/index.php/User.friendsRank", function( obj ){
-		if (obj != false && obj.length > 0) {
-			$( "#rankTemplate" ).tmpl( obj ).appendTo( 	$("#rank").find("tbody")  );  
-		}
-	}  );
+	setTimeout( function(){
+		$.getJSON( "/api/index.php/User.friendsRank", function( obj ){
+			if (obj != false && obj.length > 0) {
+				$( "#rankTemplate" ).tmpl( obj ).appendTo( 	$("#rank").find("tbody")  );  
+			}
+		}  );
+	}, 750 );
 	
 	//显示好友
 	$("#friends").hover( function(){
