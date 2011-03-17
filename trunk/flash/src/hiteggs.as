@@ -108,7 +108,7 @@ package
 			var area:CommentArea = new CommentArea();
 			area.x = 0;
 			area.y = 405;
-			area.ct = this;
+			area.ct = this; 
 			 
 			this.addChild( area );			
 			
@@ -160,8 +160,8 @@ package
 		
 		private function mouseMoveHandler(evt:MouseEvent):void
 		{
-			cursor.x = evt.stageX;
-			cursor.y = evt.stageY;
+			cursor.x = evt.stageX - 3;
+			cursor.y = evt.stageY - 20;
 		}
 		
 		private function showEgg( obj:DisplayObject ,  obj2:DisplayObject) :void
@@ -180,8 +180,6 @@ package
 		private function onEggClick( event: Event ) :void {
 			if ( !this.setFriend ){
 				addText( "还没选择要砸的好友呢" );
-			}else{
-				this.addText( "啊哦，一天只能敲一次，明天再来吧" );
 			}	
 		}
 		
@@ -272,6 +270,8 @@ package
 			if(isAvailable){
 				ExternalInterface.call("onShowGift", retObj.ret, retObj.msg );
 			}
+			
+			addText( "哦耶,成功,快快分享给好友吧" );
 		}
 
 		private var dropShadowFilter :DropShadowFilter = new DropShadowFilter( 10, 45, 0x000000, 0.8, 8, 8, 0.65, 1, false, false, false );
@@ -387,7 +387,6 @@ package
 			this.inited = true;
 
 			trace( "this.canhit = " + this.canhit );
-			egg.clickable = this.canhit && this.setFriend ;
 		}
 		
 		public function setPerson( fsid :String, fname:String, furl:String  ) :void
@@ -397,7 +396,8 @@ package
 			this.furl = furl;
 			this.setFriend = true;
 			
-			egg.clickable = this.canhit && this.setFriend ;
+			egg.clickable = this.setFriend ;
+//			egg.reset();			
 		}
 		
 		private var dropShadowFilterText :DropShadowFilter = new DropShadowFilter( 5, 45, 0x000000, 0.8, 8, 8, 0.65, 1, false, false, false );
@@ -427,6 +427,10 @@ package
 				
 				sending = 2;	
 				mb.source = this.source;
+				mb.anywhereToken = this.token;
+				mb.isTrustDomain = true;
+				mb.consumerKey = this.source;
+				mb.consumerSecret = "5c4e7cbd52ceb59aaaf054b0afab6930";
 				//mb.accessTokenKey = "562831874";
 				//mb.accessTokenSecrect = "5c4e7cbd52ceb59aaaf054b0afab6930"; 	
 				//mb.anywhereToken = this.token;
