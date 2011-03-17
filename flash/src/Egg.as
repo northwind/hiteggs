@@ -86,6 +86,21 @@ package
 			}
 		}
 		
+		public function reset() : void
+		{
+			broken = false;
+			
+			try{
+				this.removeChild( eggshellBroken );
+				this.removeChild( eggshell );
+				this.addChild( eggshell );
+			}catch( e:Error ){
+			}
+			
+			removeListener();
+			addListener();
+		}
+		
 		private function removeListener() : void
 		{
 			this.removeEventListener( 	MouseEvent.ROLL_OVER, onEggRollOver );
