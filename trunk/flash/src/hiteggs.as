@@ -52,6 +52,7 @@ package
 		private var ufollows : int = 0;
 		private var source:String = "";
 		private var token:String = "";
+		private var secret:String = "";
 		private var canhit:Boolean = false;
 		private var inited:Boolean = false;
 		private var setFriend:Boolean = false;
@@ -142,7 +143,7 @@ package
 		
 		private function test() : void
 		{
-			this.setConfig( "562831874", "0", "1362803703", "笑脸墙", 50, true );
+			this.setConfig( "562831874", "0", "0", "1362803703", "笑脸墙", 50, true );
 			this.setPerson( "1676619367", "佟野最喜剧-平男", "http://tp4.sinaimg.cn/1676619367/180/1262140190/1" );
 //			this.addText( "@{name}，你太给力了" ); 
 //			setBackground( "http://eggs.sinaapp.com/assets/geiliable.jpg"  );
@@ -373,19 +374,23 @@ package
 			return PNGEncoder.encode( data );
 		}
 		
-		public function setConfig( source:String, token:String, 
+		public function setConfig( source:String, token:String, secret:String, 
 								   uid:String, username:String,
 								   ufollows:int, canhit:Boolean
 									  ) :void
 		{
 			this.source = source;
 			this.token = token;
+			this.secret = secret;
 			this.uid = uid;
 			this.username = username;
 			this.ufollows = ufollows;
 			this.canhit = canhit;
 			this.inited = true;
 
+			mb.source = this.source;
+			mb.loginResult( this.token );
+			
 			trace( "this.canhit = " + this.canhit );
 		}
 		
@@ -426,18 +431,18 @@ package
 				}
 				
 				sending = 2;	
-				mb.source = this.source;
-				mb.anywhereToken = this.token;
-				mb.isTrustDomain = true;
-				mb.consumerKey = this.source;
-				mb.consumerSecret = "5c4e7cbd52ceb59aaaf054b0afab6930";
-				//mb.accessTokenKey = "562831874";
-				//mb.accessTokenSecrect = "5c4e7cbd52ceb59aaaf054b0afab6930"; 	
 				//mb.anywhereToken = this.token;
-				//trace( "token  : " + mb.anywhereToken );
+				mb.isTrustDomain = true;
+				
+				mb.accessTokenKey = this.token;
+				mb.accessTokenSecrect = this.secret;
+				
+				//mb.anywhereToken = this.token;
+//				trace( "token  : " + mb.anywhereToken );
 				
 				status = translate( status );
 				mb.updateStatus( status + " -- 轻松砸彩蛋，免费得大奖。 更有丰厚积分等你拿哦。 " + this.urlJump + "?" + Math.random() , null, getSnapshot() );
+//				mb.updateStatus( status + " -- 轻松砸彩蛋，免费得大奖。 更有丰厚积分等你拿哦。 " + this.urlJump + "?" + Math.random() , null, null );
 			}else{
 				addText( "还没砸蛋呢" );
 			}
