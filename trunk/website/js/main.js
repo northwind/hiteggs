@@ -51,6 +51,7 @@ $( function(){
 	var me;
 	var source = "562831874";
 	var token = $.cookie( "anywhereToken" );
+	var secret = $.cookie( "anywhereTokenSecret" );
 	//获取自身消息
 	$.getJSON( "/api/index.php/User.get", { sid : sid }, function( obj ){
 		if ( obj ) {
@@ -62,7 +63,7 @@ $( function(){
 				//alert( "flash is ok!" );
 				//init flash
 				try {
-					flash.init( source, token, me.sid, me.username, me.friends, true );
+					flash.init( source, token, secret, me.sid, me.username, me.friends, true );
 				} catch (e) {
 					//alert( e );
 				}					
