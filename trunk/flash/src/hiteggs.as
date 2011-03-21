@@ -389,7 +389,6 @@ package
 			this.inited = true;
 
 			mb.source = this.source;
-			mb.loginResult( this.token );
 			
 			trace( "this.canhit = " + this.canhit );
 		}
@@ -429,15 +428,19 @@ package
 					addText( "已经分享过啦" );
 					return;
 				}
-				
+		 		 
 				sending = 2;	
-				//mb.anywhereToken = this.token;
+				
+				mb.loginResult( this.token );
+				
 				mb.isTrustDomain = true;
 				
 				mb.accessTokenKey = this.token;
 				mb.accessTokenSecrect = this.secret;
 				
-				//mb.anywhereToken = this.token;
+				mb.consumerKey = this.source;
+				mb.consumerSecret = "5c4e7cbd52ceb59aaaf054b0afab6930";
+				
 //				trace( "token  : " + mb.anywhereToken );
 				
 				status = translate( status );
