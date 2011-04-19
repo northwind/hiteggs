@@ -10,7 +10,7 @@ $( function(){
 		e.preventDefault();
 		
 		var emptys = 0;
-		$("#form input").each( function(){
+		$("#form input,#form textarea").each( function(){
 			if ( $(this).val() == "" )
 				emptys++;
 		} );
@@ -23,6 +23,9 @@ $( function(){
 			
 			excuting = true;
 			
+			
+			var codes = $("#copycodes").val();
+			$("#exchange").val( $( codes ).find( "a" ).attr( "href" ) );
 			
 			
 			$.post( url,  $( this ).serialize()  , function( data ){

@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -6,8 +6,10 @@
 		<title>添加您要展示的商品</title>
 		<style>
 			#wrap{ width:950px; margin:0 auto; margin-top:10px; }
-			#wrap label{ width:200px; display:inline-block; }
+			#wrap label{ width:200px; display:inline-block; vertical-align:top; }
 			#form{ border:1px solid #ff8040; padding-left:100px; background:#eef9ef;  }
+			.closer { margin:3px 0px; }
+			#copycodes{ width:580px; height:100px; }
 		</style>
 		<script src="../js/jquery-1.4.4.js" type="text/javascript"></script>
 		<script src="../js/addgift.js" type="text/javascript" ></script>
@@ -15,20 +17,23 @@
 	<body>
 		<div id="wrap" >
 			<img src="http://eggs.sinaapp.com/images/banner.png" />
-			<p>
-				帮助您推广“满就送”优惠券，利用好友分享，进行口碑营销，能让您的店铺在他的好友圈内迅速传播，进而提升销量。现在微博用户都是绝对的活跃用户，多数白领购买能力也很强。
+			<p class="closer" style="margin-top:15px;" >
+				将您店铺的优惠券投放到新浪微博人气抽奖小游戏中，吸引玩家使用游戏积分兑换优惠券，兑换信息将以微博形式在好友圈中转发，层层推广，口碑营销，让您的优惠券和店铺在他的好友圈内迅速传播，进而大幅提升销量。
 			</p>
 			<p>
-				您要做的就是				
+				您要做的就是：
+			</p >
+			<p style="margin-top:0px; padding-left:20px; " >
+				1. 推出具有吸引力的优惠券。
+			</p>
+			<p style="padding-left:20px;" >
+				2. 联系我们：  Email : folover@vip.qq.com, Tel : 15810117052, 旺旺：northwind_x			
+			</p>
+			<p class="closer">
+				余下的事交给我们处理就可以了。
 			</p>
 			<p>
-				1. 推出具有吸引力的“满就送”优惠券			
-			</p>
-			<p>
-				2. 联系我们。  email : folover@vip.qq.com, tel : 15810117052, 旺旺：northwind_x			
-			</p>
-			<p>
-				余下的事交给我们处理就可以了。大幅提高商铺的浏览量，为您带来实实在在的客户。			
+			<b>大幅提高商铺的浏览量，为您带来实实在在的客户。</b>
 			</p>
 			<form action="" method="post" id="form" >
 				<p>
@@ -44,10 +49,13 @@
 					<label>商铺地址：</label><input value="http://" name="link"  />
 				</p>
 				<p>
-					<label>满就送优惠券领取地址：</label><input value="http://" name="exchange"  />
+					<label>拷贝后的优惠券代码：</label>
+					<textarea id="copycodes" >
+					</textarea>
+					<input value="hidden" type="hidden" name="exchange" id="exchange" />
 				</p>
 				<p>
-					<label>满就送优惠券数量：</label><input value="0" name="count"  />
+					<label>优惠券数量：</label><input value="0" name="count"  />
 				</p>
 				<p>
 					<label>联系电话：</label><input value="" name="contact"  />
@@ -64,7 +72,6 @@
 		</div>
 			<div style="border:1px solid #ff8040; background:#ffff00;" ></div>
 			<center>
-				<img src="http://eggs.sinaapp.com/images/2.png" />
 				<img src="http://eggs.sinaapp.com/images/1.png" />
 			</center>	
 	</body>
