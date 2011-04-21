@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+		<title>添加您要推广的优惠券</title>
+		<style>
+			#wrap{ width:950px; margin:0 auto; margin-top:10px; }
+			#wrap label{ width:200px; display:inline-block; vertical-align:top; }
+			#form{ border:1px solid #ff8040; border-bottom:none; overflow:hidden; padding-left:100px; background:#eef9ef;  }
+			.closer { margin:3px 0px; }
+			#copycodes{ width:580px; height:100px; }
+			#form input, #form select{ width:400px; }
+			#form label span{ color:#f00; }
+			#form button{ width:200px; height:25px; margin-right:250px; }
+		</style>
+		<script src="../js/jquery-1.4.4.js" type="text/javascript"></script>
+		<script src="../js/addgift.js" type="text/javascript" ></script>
+	</head>
+	<body>
+		<div id="wrap" >
+			<img src="http://eggs.sinaapp.com/images/banner.png" />
+			<p class="closer" style="margin-top:15px;" >
+				您好，<span id="username">XXXXX</span>，将您店铺的优惠券投放到新浪微博人气抽奖小游戏中，吸引玩家使用游戏积分兑换优惠券，兑换信息将以微博形式在好友圈中转发，层层推广，口碑营销，让您的优惠券和店铺在他的好友圈内迅速传播，进而大幅提升销量。联系我们：  Email : folover@vip.qq.com, Tel : 15810117052, 旺旺：northwind_x
+			</p>
+			<p>
+				<b>大幅提高商铺的浏览量，为您带来实实在在的客户。请选择优惠券：</b>
+			</p>
+			<form action="" method="post" id="form" >
+				<p>
+					<label><span>*</span>商铺名称：</label><input name="name" />
+				</p>
+				<p>
+					<label><span>*</span>商铺图片地址：</label><input value="http://" name="image_url"  />( 建议宽260px,高160px)
+				</p>
+				<p>
+					<label><span>*</span>商铺广告语：</label><input name="ad_words"  />
+				</p>
+				<p>
+					<label><span>*</span>商铺地址：</label><input value="http://" name="link"  />
+				</p>
+				<p>
+					<label><span>*</span>想发放的优惠券：</label>
+					<select>
+						<option value="" >----请选择优惠券----</option>
+					</select>
+					<input value="hidden" type="hidden" name="exchange" id="exchange" />
+				</p>
+				<p>
+					<label><span>*</span>优惠券数量：</label><input value="0" name="count"  />
+				</p>
+				<p>
+					<label>联系电话：</label><input value="" name="contact"  />
+				</p>
+					<input name="cost" type="hidden" value="500" />				
+					<input name="fee" type="hidden" value="1" />
+					<input name="fromwhere" type="hidden" value="sina"  />
+					<input name="type" value="1" type="hidden" />
+					<input name="active" value="0" type="hidden" />
+				<p style="text-align:right;" >
+					<button type="submit">提交</button>
+				</p>
+			</form>
+		</div>
+			<div style="border:1px solid #ff8040; background:#ffff00;" ></div>
+			<center>
+				<img src="http://eggs.sinaapp.com/images/1.png" />
+			</center>	
+	</body>
+</html>
