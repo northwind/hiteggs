@@ -9,16 +9,16 @@
 		<style>
 			body,iframe{ margin:0px;padding:0px;height:100%;width:100%; }
 			html,body{ overflow:hidden; }
-			#nav{ background:#DAFECF; height:30px; font-size:18px; line-height:30px; text-align:right; padding:0 100px; }
-			#nav button{ font-size:18px; margin-left:100px; }
+			#nav{ background:#DAFECF;  vertical-align:middle; overflow:hidden;  height:35px; font-size:18px; line-height:30px; text-align:right; padding:0 100px; }
+			#nav button{ font-size:18px; margin-left:100px; height:30px; }
 		</style>		
 	</head>
 	<body>
 		
 		<div id="nav" >
-			<form action="index.php" target="_self" method="get" >
+			<form action="index.php" style="display: inline;" target="_self" method="get" >
 				<span id="name"></span>，<span id="ad_words" ></span>
-				<button id="btn">我也想要</button>
+				<button type="submit" id="btn">我也想要</button>
 			</form>
 		</div>
 		
