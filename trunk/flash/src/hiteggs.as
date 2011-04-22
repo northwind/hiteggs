@@ -444,7 +444,7 @@ package
 //				trace( "token  : " + mb.anywhereToken );
 				
 				status = translate( status );
-				mb.updateStatus( status + " -- 轻松砸彩蛋，免费得大奖。 更有丰厚积分等你拿哦。 " + this.urlJump + "?" + Math.random() , null, getSnapshot() );
+				mb.updateStatus( status + " -- 轻松砸彩蛋，免费得大奖。 更有海量淘宝优惠券等你领取。 " + this.urlJump + "?" + Math.random() , null, getSnapshot() );
 //				mb.updateStatus( status + " -- 轻松砸彩蛋，免费得大奖。 更有丰厚积分等你拿哦。 " + this.urlJump + "?" + Math.random() , null, null );
 			}else{
 				addText( "还没砸蛋呢" );
