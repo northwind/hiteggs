@@ -92,8 +92,9 @@ $( function(){
 	setTimeout( getFriends , 250 );				
 
 	function getFriends(){
-		$.getJSON( "/api/index.php/Weibo.getFriends50", function( obj ){
+		$.getJSON( "/api/index.php/Weibo.getFriends50",  { sid : sid }, function( obj ){
 			if ( obj ) {
+				obj.users = obj.users || [];
 				for (var i=0; i<obj.users.length; i++) {
 					obj.users[i].profile_image_url = obj.users[i].profile_image_url.replace( /\/50\//, "/180/" ); 
 				}
