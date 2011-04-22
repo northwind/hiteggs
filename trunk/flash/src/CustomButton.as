@@ -8,7 +8,7 @@ package
 	public class CustomButton extends Sprite
 	{
 		private var _text :String = "";
-		private var _textFiled:TextField = new TextField();
+		protected var _textFiled:TextField = new TextField();
 		
 		public var comment :String = "";
 		public var img :String = "";
@@ -45,27 +45,27 @@ package
 			this.buttonMode = true;
 		}
 		
-		private function onRollOver( event:MouseEvent ) :void
+		protected function onRollOver( event:MouseEvent ) :void
 		{
-			paintColor( 0xCC5100 );
+			paintColor( 0xCCa1aa );
 		}
 		
-		private function onRollOut( event:MouseEvent ) :void
+		protected function onRollOut( event:MouseEvent ) :void
 		{
 			paintColor( 0xAEB2CF );
 		}
 		
-		private function onMouseDown( event:MouseEvent ) :void
+		protected function onMouseDown( event:MouseEvent ) :void
 		{
 			paintColor( 0x000000 );
 		}
 		
-		private function onMouseUp( event:MouseEvent ) :void
+		protected function onMouseUp( event:MouseEvent ) :void
 		{
-			paintColor( 0xCC5100 );
+			paintColor( 0xCCa1aa );
 		}
 		
-		private function paintColor( color:uint ) :void
+		public function paintColor( color:uint ) :void
 		{
 			this.graphics.beginFill( color );
 			this.graphics.drawRect( 0, 0, Math.max( 80, _textFiled.width ), 25 );
