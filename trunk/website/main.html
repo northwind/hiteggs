@@ -23,6 +23,7 @@
 				<div id="links"> <!-- <a id="attention" href="javascript:void(0)">关注最新礼品</a> -->
 								<a class="red" href="gifts.html">兑换礼品</a>
 										<a href="friends.html">转让积分</a>
+										<a href="http://q.t.sina.com.cn/272453">意见反馈</a>
 				</div>
 				<span id="logonarea">
 					<span id="username">用户</span>，您目前拥有积分：<span class="red" id="point"></span> <!--，共有<span id="together">5</span>位好友参与 -->
@@ -37,17 +38,17 @@
 					<div id="luckyguys" class="list">
 						<script id="luckyTemplate" type="text/x-jquery-tmpl"> 
 							<tr>
-								<td><a target="_blank" href="http://t.sina.com.cn/${sid}">${username}</a></td>
-								<td><a target="_blank" href="gift.html?id=${gid}">${name}</a></td>
-								<td>${date}</td>
+								<td align="left"><a target="_blank" href="http://t.sina.com.cn/${sid}">${username}</a></td>
+								<td align="left"><a target="_blank" title="${name}" href="gift.html?id=${gid}">${shortname}</a></td>
+								<td align="right">${date}</td>
 							</tr>
 						</script>
 						<table cellspacing="0">
 								<thead>
 									<tr>
-										<td>幸运儿</td>
-										<td>领取奖品</td>
-										<td>领取时间</td>
+										<td align="left" >幸运儿</td>
+										<td align="left">领取奖品</td>
+										<td align="right">领取时间</td>
 									</tr>
 								</thead>
 								<tbody>
@@ -58,17 +59,17 @@
 					<div id="rank" class="list">
 						<script id="rankTemplate" type="text/x-jquery-tmpl"> 
 							<tr>
-								<td ><a target="_blank" href="http://t.sina.com.cn/${sid}">${username}</a></td>
-								<td >${score}</td>
-								<td >${today_score}</td>
+								<td align="left"><a target="_blank" href="http://t.sina.com.cn/${sid}">${username}</a></td>
+								<td align="right">${score}</td>
+								<td align="right">${today_score}</td>
 							</tr>
 						</script>						
 						<table cellspacing="0">
 								<thead>
 									<tr>
-										<td>好友</td>
-										<td>总积分</td>
-										<td>今日获取积分</td>
+										<td align="left">好友</td>
+										<td align="right">总积分</td>
+										<td align="right">今日获取积分</td>
 									</tr>
 								</thead>
 								<tbody>

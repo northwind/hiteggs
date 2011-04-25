@@ -41,6 +41,6 @@ a.blue, .blue{color:#26539B;}
 
 .list { }
 .list thead td{ height:25px; line-height:25px; text-align:center; background:#dafecf; font-size:14px; font-weight:bold; color:#777; }
-.list tbody td{ height:20px; line-height:20px; padding:0 10px; text-align:center; }
+.list tbody td{ height:20px; line-height:20px; padding:0 10px; }
 
 
