@@ -27,6 +27,12 @@ $( function(){
 	setTimeout( function(){
 		$.getJSON( "/api/index.php/Gift.listBuy", function( obj ){
 			if (obj != false && obj.length > 0) {
+				
+				for (var i=0; i<obj.length; i++) {
+					obj[ i ].shortname = (obj[ i ].name || "").slice( 0, 15 );
+					obj[ i ].date = (obj[ i ].date || "").split( " " )[1];
+				}
+				
 				$( "#luckyTemplate" ).tmpl( obj ).appendTo( 	$("#luckyguys").find("tbody")  );
 			}
 		}  );
